@@ -2,7 +2,7 @@
 
 ###  Wymagania
 <ul>
-    <li> Java 11 </li>
+    <li> JDK 11 </li>
     <li> Maven </li>
 </ul>
 
