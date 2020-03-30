@@ -24,3 +24,7 @@ Driver Class: org.h2.Driver <br>
 JDBC URL: jdbc:h2:~/letswork <br>
 Username: work <br>
 Password: work <br>
+
+### API
+
+Dokumentacja API znajduję się pod adresem: <b> http://localhost:8080/swagger-ui.html#/ </b>
