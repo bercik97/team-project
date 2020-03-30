@@ -1,4 +1,4 @@
-# team-project
+# LET'S WORK
 
 <h1>WYMAGANIA FUNKCJONALNE</h1>
     <p>
@@ -46,9 +46,38 @@
         - aplikacja nie wymaga żadnych dodatkowych wymagań dotyczących sprzętu i oprogramowania
      </p>
      
+   <h1>WYMAGANIA UŻYTKOWNIKA </h1>
+    <p>
+    - strona ma być łatwa w obsłudze i intuicyjna
+    </p>
+    <p>
+    - strona ma być czytelna i przejrzysta
+    </p>
+    <p>
+    - strona ma umożliwiać komunikację pracodawców z osobami poszukującymi pracy
+    </p>
+    <p>
+    - strona ma działać na wielu urządzeniach
+    </p>
+    <p>
+    - strona ma zawierac możliwość filtrowania ogłoszeń
+    </p>
+
 <h1>WYMAGANIA SYSTEMOWE </h1>
     <p>
-    - Na wersjach systemu Windows poprzedzających Windows 7 nie ma gwarancji iż strona będzie wyświetlana poprawnie z powodu braku aktualizacji przeglądarek przez firmy zewnętrzne
+    - Zostaną wykorzytane techniki UI/UX ułatwiające komunikację użytkownika ze stroną
+    </p>
+    <p>
+    - zostaną wykorzystane fonty i kolory zalecane przez projektantów stron
+    </p>
+    <p>
+    - zostanie stworzony formularz kontaktowy e-mail
+    </p>
+    <p>
+    - strona ma być responsywna 
+    </p>
+    <p>
+    - strona będzie zawierać rozwijaną listę z checkboxami umożliwiajacymi filtrowanie ogłoszeń
     </p>
 
 <h1>MODEL PRZYROSTOWY</h1>
