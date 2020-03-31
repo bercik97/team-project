@@ -2,8 +2,6 @@ package com.letswork.api.user.domain;
 
 import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @AllArgsConstructor
@@ -17,7 +15,9 @@ class UserInMemoryRepository implements UserRepository {
     }
 
     @Override
-    public List<UserEntity> findAll() {
-        return new ArrayList<>(map.values());
+    public boolean existsByEmail(String email) {
+        return map.values()
+                .stream()
+                .anyMatch(user -> user.getEmail().equals(email));
     }
 }

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping("api/users")
 @AllArgsConstructor
@@ -20,7 +18,7 @@ class UserController {
 
     @PostMapping
     @ApiOperation("Add new user")
-    public void create(@RequestBody @Valid CreateUserDto dto) {
+    public void create(@RequestBody CreateUserDto dto) {
         facade.create(dto);
     }
 }
