@@ -8,8 +8,10 @@ class UserService {
 
     private final UserRepository repository;
     private final UserFactory factory;
+    private final UserValidator validator;
 
     void create(CreateUserDto dto) {
+        validator.validate(dto);
         repository.save(factory.create(dto));
     }
 }
