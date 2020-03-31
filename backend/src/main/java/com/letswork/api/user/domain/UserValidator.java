@@ -38,9 +38,7 @@ class UserValidator {
     }
 
     private boolean isEmailExists(String email) {
-        return repository.findAll()
-                .stream()
-                .anyMatch(user -> user.getEmail().equals(email));
+        return repository.existsByEmail(email);
     }
 
     private void validatePasswords(String password, String confirmedPassword) {
