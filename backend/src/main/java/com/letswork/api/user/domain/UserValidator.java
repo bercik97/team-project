@@ -24,7 +24,7 @@ class UserValidator {
     private void validateEmail(String email) {
         InvalidUserException.CAUSE cause = null;
 
-        if (Strings.isNullOrEmpty(email)) {
+        if (Strings.isNullOrEmpty(email) || email.isBlank()) {
             cause = InvalidUserException.CAUSE.EMAIL_EMPTY;
         } else if (!EMAIL_REGEX.matcher(email).find()) {
             cause = InvalidUserException.CAUSE.EMAIL_WRONG_FORMAT;
@@ -46,7 +46,7 @@ class UserValidator {
     private void validatePasswords(String password, String confirmedPassword) {
         InvalidUserException.CAUSE cause = null;
 
-        if (Strings.isNullOrEmpty(password)) {
+        if (Strings.isNullOrEmpty(password) || password.isBlank()) {
             cause = InvalidUserException.CAUSE.PASSWORD_EMPTY;
         } else if (password.length() < 6) {
             cause = InvalidUserException.CAUSE.PASSWORD_WRONG_LENGTH;
