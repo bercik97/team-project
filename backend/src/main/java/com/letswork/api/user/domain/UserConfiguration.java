@@ -10,13 +10,13 @@ class UserConfiguration {
 
     @Bean
     UserFacade facade(UserRepository repository) {
-        UserService service = new UserService(repository, new UserFactory());
+        UserService service = new UserService(repository, new UserFactory(), new UserValidator(repository));
         return new UserFacade(service);
     }
 
     UserFacade facade(ConcurrentHashMap<String, UserEntity> db) {
         UserInMemoryRepository repository = new UserInMemoryRepository(db);
-        UserService service = new UserService(repository, new UserFactory());
+        UserService service = new UserService(repository, new UserFactory(), new UserValidator(repository));
         return new UserFacade(service);
     }
 }
