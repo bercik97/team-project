@@ -1,5 +1,6 @@
 package com.letswork.api.user.domain;
 
+import com.letswork.api.token.domain.TokenFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,14 +10,20 @@ import java.util.concurrent.ConcurrentHashMap;
 class UserConfiguration {
 
     @Bean
-    UserFacade facade(UserRepository repository) {
-        UserService service = new UserService(repository, new UserFactory(), new UserValidator(repository));
+    UserFacade userFacade(UserRepository repository,
+                          TokenFacade tokenFacade) {
+        UserFactory factory = new UserFactory();
+        UserValidator validator = new UserValidator(repository);
+        UserService service = new UserService(repository, factory, validator, tokenFacade);
         return new UserFacade(service);
     }
 
-    UserFacade facade(ConcurrentHashMap<String, UserEntity> db) {
+    UserFacade userFacade(ConcurrentHashMap<String, UserEntity> db,
+                          TokenFacade tokenFacade) {
         UserInMemoryRepository repository = new UserInMemoryRepository(db);
-        UserService service = new UserService(repository, new UserFactory(), new UserValidator(repository));
+        UserFactory factory = new UserFactory();
+        UserValidator validator = new UserValidator(repository);
+        UserService service = new UserService(repository, factory, validator, tokenFacade);
         return new UserFacade(service);
     }
 }
