@@ -15,7 +15,7 @@ class UserSpec extends Specification {
     private UserFacade userFacade
 
     @Shared
-    private TokenFacade tokenFacade
+    private TokenFacade tokenFacade = Mock()
 
     @Shared
     private ConcurrentHashMap<String, UserEntity> db
