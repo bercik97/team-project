@@ -7,4 +7,6 @@ interface UserRepository extends Repository<UserEntity, Long> {
     void save(UserEntity user);
 
     boolean existsByEmail(String email);
+
+    void delete(UserEntity user);
 }
