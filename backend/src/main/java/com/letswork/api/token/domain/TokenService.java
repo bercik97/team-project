@@ -41,25 +41,24 @@ class TokenService implements EmailSender {
         mailSender.send(mimeMessage);
     }
 
-    public TokenEntity findTokenByConfirmationToken(String confirmationToken) {
-        cleanAllExpiredTokens();
-        TokenEntity token = repository.findByConfirmationToken(confirmationToken);
-        if (token == null) {
-            throw new InvalidTokenException(InvalidTokenException.CAUSE.CONFIRMATION_TOKEN_EXPIRED);
-        }
-        return token;
-    }
 
-    private void cleanAllExpiredTokens() {
+    public void cleanAllExpiredTokens() {
         repository.findAll()
                 .stream()
-                .map(token -> repository.findById(token.getId()))
-                .filter(token -> (getCurrentTimeInSeconds() - Long.parseLong(token.getDateInSeconds())) > 900)
+                .filter(token -> Math.abs(getCurrentTimeInSeconds() - Long.parseLong(token.getDateInSeconds())) > 900)
                 .forEach(repository::delete);
     }
 
     private long getCurrentTimeInSeconds() {
         return TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis()));
+    }
+
+    public TokenEntity findTokenByConfirmationToken(String confirmationToken) {
+        TokenEntity token = repository.findByConfirmationToken(confirmationToken);
+        if (token == null) {
+            throw new InvalidTokenException(InvalidTokenException.CAUSE.CONFIRMATION_TOKEN_NOT_EXISTS);
+        }
+        return token;
     }
 
     public void deleteToken(TokenEntity token) {

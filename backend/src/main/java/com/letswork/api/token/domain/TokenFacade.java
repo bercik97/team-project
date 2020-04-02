@@ -12,6 +12,10 @@ public class TokenFacade {
         service.sendRegisterConfirmationToken(user);
     }
 
+    public void cleanAllExpiredTokens() {
+        service.cleanAllExpiredTokens();
+    }
+
     public TokenEntity findTokenByConfirmationToken(String confirmationToken) {
         return service.findTokenByConfirmationToken(confirmationToken);
     }

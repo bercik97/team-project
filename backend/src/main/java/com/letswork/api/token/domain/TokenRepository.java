@@ -12,7 +12,5 @@ interface TokenRepository extends Repository<TokenEntity, Long> {
 
     Set<TokenEntity> findAll();
 
-    TokenEntity findById(Long id);
-
-    TokenEntity findByConfirmationToken(String token);
+    TokenEntity findByConfirmationToken(String confirmationToken);
 }

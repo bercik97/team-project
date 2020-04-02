@@ -27,6 +27,7 @@ public class UserService {
     }
 
     public void confirmAccount(String confirmationToken) {
+        tokenFacade.cleanAllExpiredTokens();
         TokenEntity token = tokenFacade.findTokenByConfirmationToken(confirmationToken);
         UserEntity user = token.getUser();
         enableUserAccount(user);
