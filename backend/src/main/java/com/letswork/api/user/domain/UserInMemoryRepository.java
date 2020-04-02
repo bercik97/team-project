@@ -20,4 +20,9 @@ class UserInMemoryRepository implements UserRepository {
                 .stream()
                 .anyMatch(user -> user.getEmail().equals(email));
     }
+
+    @Override
+    public void delete(UserEntity user) {
+        map.remove(user.getEmail());
+    }
 }

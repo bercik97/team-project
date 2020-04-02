@@ -8,7 +8,7 @@ class UserFactory {
         return UserEntity.builder()
                 .email(dto.getEmail())
                 .password(dto.getPassword())
-                .isEnabled(true)
+                .isEnabled(false)
                 .build();
     }
 }
