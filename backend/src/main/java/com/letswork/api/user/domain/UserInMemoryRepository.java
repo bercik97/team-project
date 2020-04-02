@@ -25,4 +25,10 @@ class UserInMemoryRepository implements UserRepository {
     public void delete(UserEntity user) {
         map.remove(user.getEmail());
     }
+
+    @Override
+    public void enableUserAccount(UserEntity user) {
+        UserEntity userEntity = map.get(user.getEmail());
+        userEntity.setEnabled(true);
+    }
 }

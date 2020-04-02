@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.concurrent.TimeUnit;
 
 @AllArgsConstructor
 class TokenService implements EmailSender {
@@ -38,5 +39,30 @@ class TokenService implements EmailSender {
         helper.setSubject("Dokończenie rejestracji");
         helper.setFrom("LetsWork");
         mailSender.send(mimeMessage);
+    }
+
+    public TokenEntity findTokenByConfirmationToken(String confirmationToken) {
+        cleanAllExpiredTokens();
+        TokenEntity token = repository.findByConfirmationToken(confirmationToken);
+        if (token == null) {
+            throw new InvalidTokenException(InvalidTokenException.CAUSE.CONFIRMATION_TOKEN_EXPIRED);
+        }
+        return token;
+    }
+
+    private void cleanAllExpiredTokens() {
+        repository.findAll()
+                .stream()
+                .map(token -> repository.findById(token.getId()))
+                .filter(token -> (getCurrentTimeInSeconds() - Long.parseLong(token.getDateInSeconds())) > 900)
+                .forEach(repository::delete);
+    }
+
+    private long getCurrentTimeInSeconds() {
+        return TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis()));
+    }
+
+    public void deleteToken(TokenEntity token) {
+        repository.delete(token);
     }
 }

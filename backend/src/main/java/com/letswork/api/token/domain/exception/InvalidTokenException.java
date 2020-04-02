@@ -9,7 +9,8 @@ public class InvalidTokenException extends ParameterizedException {
     @Getter
     @AllArgsConstructor
     public enum CAUSE {
-        CONFIRMATION_TOKEN_NOT_SENT("Token potwierdzający nie został wysłany");
+        CONFIRMATION_TOKEN_NOT_SENT("Token potwierdzający nie został wysłany"),
+        CONFIRMATION_TOKEN_EXPIRED("Token potwierdzający jest nieaktywny");
 
         String message;
     }

@@ -1,12 +1,13 @@
 package com.letswork.api.user.domain;
 
+import com.letswork.api.token.domain.TokenEntity;
 import com.letswork.api.token.domain.TokenFacade;
 import com.letswork.api.token.domain.exception.InvalidTokenException;
 import com.letswork.api.user.domain.dto.CreateUserDto;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-class UserService {
+public class UserService {
 
     private final UserRepository repository;
     private final UserFactory factory;
@@ -23,5 +24,17 @@ class UserService {
             repository.delete(user);
             throw exception;
         }
+    }
+
+    public void confirmAccount(String confirmationToken) {
+        TokenEntity token = tokenFacade.findTokenByConfirmationToken(confirmationToken);
+        UserEntity user = token.getUser();
+        enableUserAccount(user);
+        tokenFacade.deleteToken(token);
+    }
+
+    private void enableUserAccount(UserEntity user) {
+        user.setEnabled(true);
+        repository.save(user);
     }
 }
