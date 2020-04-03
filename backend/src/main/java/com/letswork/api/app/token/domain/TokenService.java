@@ -31,7 +31,7 @@ class TokenService implements EmailSender {
     public void sendEmail(String to, String confirmationToken) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-        String htmlMsg = "Aby potwierdzić konto, kliknij proszę na poniższy link:<br>" +
+        String htmlMsg = "Aby potwierdzi&#263; konto, kliknij prosz&#281; na poni&#380;szy link:<br>" +
                 "<a href='http://localhost:3000/confirm-account?token=" + confirmationToken + "'>" +
                 "http://localhost:3000/confirm-account?token=" + confirmationToken + "</a>";
         mimeMessage.setContent(htmlMsg, "text/html");
