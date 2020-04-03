@@ -87,3 +87,7 @@
      <p>
     - po zakończeniu każdego z etapów mamy działający (choć pozbawiony części funkcjonalności) produkt
     </p>
+   
+<h1>Diagram UML</h1> 
+
+![ScreenShot](documentation/uml.jpeg)
