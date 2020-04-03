@@ -11,4 +11,8 @@ public class UserFacade {
     public void create(CreateUserDto dto) {
         service.create(dto);
     }
+
+    public void confirmAccount(String confirmationToken) {
+        service.confirmAccount(confirmationToken);
+    }
 }

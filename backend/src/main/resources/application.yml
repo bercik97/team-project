@@ -11,6 +11,9 @@ spring:
     hibernate:
       ddlAuto: create
     openInView: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
 
   h2:
     console:
