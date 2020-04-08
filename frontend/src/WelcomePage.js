@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from './img/logo.png'
+import Logo from './img/logo_transparent.png'
 import bg0 from './img/bg-6.jpg'
 import bg1 from './img/bg-4.jpg'
 import bg2 from './img/bg-5.jpg'
@@ -20,12 +20,14 @@ export default class MainPage extends React.Component {
             </button>
             <div className="collapse navbar-collapse" id="navbarResposive">
               <ul className="navbar-nav ml-auto">
-                <li className="nav-item active">
-                  <a className="btn btn-primary btn-lg nav-link border-primary rounded-left" href="#">Załóż konto</a>
-                </li>
-                <li className="nav-item active">
-                  <a className="btn btn-primary btn-lg border-secondary rounded-right" href="#">Zaloguj się</a>
-                </li>
+                <div className="btn-group">
+
+                  <a className="btn bg-primary" href="/register">Załóż konto</a>
+
+
+                  <a className="btn btn-primary" href="/login">Zaloguj się</a>
+
+                </div>
               </ul>
             </div>
           </div>
@@ -115,7 +117,7 @@ export default class MainPage extends React.Component {
                 <img src={Logo} alt="logo"/>
                 <hr className="dark" />
                 <p>
-                724478420
+                  777 777 777
                 </p>
                 <p>
                   joannnabiala@gmail.com
@@ -124,11 +126,12 @@ export default class MainPage extends React.Component {
             </div>
             <div className="text-center">
               <div className="dark" />
-              <p>©lets-work-pl.pl</p>
+              <p>
+                ©lets-work-pl.pl
+              </p>
             </div>
           </div>
         </footer>
-
       </div>
     );
   }
