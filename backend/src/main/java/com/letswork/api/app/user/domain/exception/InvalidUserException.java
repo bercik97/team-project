@@ -10,7 +10,7 @@ public class InvalidUserException extends ParameterizedException {
     @AllArgsConstructor
     public enum CAUSE {
         EMAIL_EMPTY("Proszę podać adres e-mail"),
-        EMAIL_WRONG_FORMAT("Podany format adresu e-mail jest błędny)"),
+        EMAIL_WRONG_FORMAT("Podany format adresu e-mail jest błędny"),
         EMAIL_NOT_UNIQUE("Podany adres e-mail istnieje już w systemie"),
         PASSWORD_EMPTY("Proszę podać hasło"),
         PASSWORD_WRONG_LENGTH("Hasło powinno zawierać conajmniej 6 znaków"),
