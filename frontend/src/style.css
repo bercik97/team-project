@@ -1,0 +1,67 @@
+.header
+{
+    margin-bottom: 30px;
+}
+
+.image {
+    margin-bottom: 20px;
+}
+
+#username {
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+#password {
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+#email {
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+#login-btn{
+    margin-bottom: auto;
+}
+
+.note
+{
+    text-align: center;
+    height: 80px;
+    background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+    color: #fff;
+    font-weight: bold;
+    line-height: 80px;
+}
+.form-content
+{
+    padding: 5%;
+    border: 1px solid #ced4da;
+    margin-bottom: 2%;
+}
+.form-control{
+    border-radius:1.5rem;
+}
+.btnSubmit
+{
+    border:none;
+    border-radius:1.5rem;
+    padding: 1%;
+    width: 20%;
+    cursor: pointer;
+    background: #0062cc;
+    color: #fff;
+    margin-top: 40px;
+    margin-inside: 20px;
+}
+
+.alert-danger{
+    border:none;
+    border-radius:1.5rem;
+    margin-top: 30px;
+    cursor: pointer;
+    padding: 30%;
+}
+
