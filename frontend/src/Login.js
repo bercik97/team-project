@@ -1,10 +1,8 @@
 import React from 'react';
-import lock from"./img/lock.svg";
+import lock from "./img/lock.svg";
 import axios from "axios";
 import './style.css';
 import Logo from "./img/logo_transparent.png";
-
-
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -26,7 +24,7 @@ export default class Login extends React.Component {
   }
 
   handleSubmit(event) {
-    const { username, password } = this.state;
+    const {username, password} = this.state;
 
     let result = axios
       .post(
@@ -51,7 +49,6 @@ export default class Login extends React.Component {
     event.preventDefault();
   }
 
-
   render() {
     return (
       <div>
@@ -68,24 +65,16 @@ export default class Login extends React.Component {
             <div className="collapse navbar-collapse" id="navbarResposive">
               <ul className="navbar-nav ml-auto">
                 <div className="btn-group">
-
                   <a className="btn bg-primary" href="/register">Załóż konto</a>
-
-
                   <a className="btn btn-primary" href="/login">Zaloguj się</a>
-
                 </div>
               </ul>
             </div>
           </div>
         </nav>
-
         <div className="base-container text-center form-group">
           <div className="container register-form">
             <div className="form">
-              {/*<div className="note">*/}
-              {/*  <p>formularz logowania</p>*/}
-              {/*</div>*/}
               <div className="image">
                 <img src={lock} alt="bg img"/>
               </div>
@@ -93,23 +82,17 @@ export default class Login extends React.Component {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label id="email" />
+                      <label id="email"/>
                       <input
-
                         name="email"
-
                         type="email"
                         className="form-control"
                         placeholder="Twój e-mail *"
                       />
                     </div>
-
-
                     <label id="password"/>
                     <input
-
                       name="password"
-
                       type="password"
                       className="form-control"
                       placeholder="Twoje hasło *"
@@ -117,11 +100,9 @@ export default class Login extends React.Component {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <button type="button" className="btnSubmit" >Zaloguj się!</button>
+                      <button type="button" className="btnSubmit">Zaloguj się!</button>
                     </div>
                   </div>
-
-
                 </div>
               </div>
             </div>
@@ -132,29 +113,43 @@ export default class Login extends React.Component {
             <div className="row text-center">
               <div className="col-md-1">
                 <img src={Logo} alt="logo"/>
-                <hr className="dark" />
+                <hr className="dark"/>
                 <p>
                   777 777 777
                 </p>
                 <p>
                   joannnabiala@gmail.com
+                  <footer>
+                    <div className="container-fluid padding">
+                      <div className="row text-center">
+                        <div className="col-md-1">
+                          <img src={Logo} alt="logo"/>
+                          <hr className="dark"/>
+                          <p>
+                            777 777 777
+                          </p>
+                          <p>
+                            joannnabiala@gmail.com
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="dark"/>
+                        <p>©lets-work-pl.pl</p>
+                      </div>
+                    </div>
+                  </footer>
+                  mail.com
                 </p>
               </div>
             </div>
             <div className="text-center">
-              <div className="dark" />
+              <div className="dark"/>
               <p>©lets-work-pl.pl</p>
             </div>
           </div>
         </footer>
       </div>
-
-
-
-
-
-
-
     );
   }
 }

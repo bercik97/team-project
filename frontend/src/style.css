@@ -1,5 +1,4 @@
-.header
-{
+.header {
     margin-bottom: 30px;
 }
 
@@ -22,12 +21,11 @@
     margin-right: 40px;
 }
 
-#login-btn{
+#login-btn {
     margin-bottom: auto;
 }
 
-.note
-{
+.note {
     text-align: center;
     height: 80px;
     background: -webkit-linear-gradient(left, #0072ff, #8811c5);
@@ -35,19 +33,20 @@
     font-weight: bold;
     line-height: 80px;
 }
-.form-content
-{
+
+.form-content {
     padding: 5%;
     border: 1px solid #ced4da;
     margin-bottom: 2%;
 }
-.form-control{
-    border-radius:1.5rem;
+
+.form-control {
+    border-radius: 1.5rem;
 }
-.btnSubmit
-{
-    border:none;
-    border-radius:1.5rem;
+
+.btnSubmit {
+    border: none;
+    border-radius: 1.5rem;
     padding: 1%;
     width: 20%;
     cursor: pointer;
@@ -57,9 +56,9 @@
     margin-inside: 20px;
 }
 
-.alert-danger{
-    border:none;
-    border-radius:1.5rem;
+.alert-danger {
+    border: none;
+    border-radius: 1.5rem;
     margin-top: 30px;
     cursor: pointer;
     padding: 30%;
