@@ -1,9 +1,8 @@
 import React from 'react';
-import register from"./img/job.svg";
+import register from "./img/job.svg";
 import './style.css';
 import axios from 'axios';
 import Logo from "./img/logo_transparent.png";
-
 
 export default class Register extends React.Component {
   constructor(props) {
@@ -12,14 +11,12 @@ export default class Register extends React.Component {
     this.state = {
       email: "",
       password: "",
-      confirmedPassword:"",
+      confirmedPassword: "",
       items: [],
       errorMessage: ''
-      //redirectToWelcome: false,
     };
-
-   this.handleSubmit = this.handleSubmit.bind(this);
-   this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
@@ -40,10 +37,7 @@ export default class Register extends React.Component {
         alert(response.data);
       })
       .catch(error => {
-        // console.log("jest error");
-        // console.log(error.response.data.message);
         this.setState({errorMessage: error.response.data.message});
-        // alert('{message}');
       });
   }
 
@@ -63,100 +57,87 @@ export default class Register extends React.Component {
             <div className="collapse navbar-collapse" id="navbarResposive">
               <ul className="navbar-nav ml-auto">
                 <div className="btn-group">
-
                   <a className="btn bg-primary" href="/register">Załóż konto</a>
-
-
                   <a className="btn btn-primary" href="/login">Zaloguj się</a>
-
                 </div>
               </ul>
             </div>
           </div>
         </nav>
-
-        {/*tutaj zaczyna się formularz rejestracji*/}
-      <div className="base-container text-center form-group">
-        <div className="container register-form">
-          <div className="form">
-            {/*<div className="note">*/}
-            {/*  <p>formularz rejestracji</p>*/}
-            {/*</div>*/}
-            <div className="image">
-              <img src={register} alt="bg img"/>
-            </div>
-            <div className="form-content">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label id="email" />
-                    <input
-                      value={this.state.email}
-                      name="email"
-                      onChange={this.handleChange}
-                      type="email"
-                      className="form-control"
-                      placeholder="Twój e-mail *"
-                    />
-                  </div>
-
-                  <div className="form-group">
+        <div className="base-container text-center form-group">
+          <div className="container register-form">
+            <div className="form">
+              <div className="image">
+                <img src={register} alt="bg img"/>
+              </div>
+              <div className="form-content">
+                <div className="row">
+                  <div className="col-md-6">
                     <div className="form-group">
-                      <label id="confirmedPassword"/>
+                      <label id="email"/>
                       <input
-                        value={this.state.confirmedPassword}
-                        name="confirmedPassword"
+                        value={this.state.email}
+                        name="email"
                         onChange={this.handleChange}
-                        type="password"
+                        type="email"
                         className="form-control"
-                        placeholder="Potwierdzenie hasła *"
+                        placeholder="Twój e-mail *"
                       />
-                       {this.getErrorMessage()}
+                    </div>
+                    <div className="form-group">
+                      <div className="form-group">
+                        <label id="confirmedPassword"/>
+                        <input
+                          value={this.state.confirmedPassword}
+                          name="confirmedPassword"
+                          onChange={this.handleChange}
+                          type="password"
+                          className="form-control"
+                          placeholder="Potwierdzenie hasła *"
+                        />
+                        {this.getErrorMessage()}
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="col-md-6">
-                  <label id="password"/>
-                  <input
-                    value={this.state.password}
-                    name="password"
-                    onChange={this.handleChange}
-                    type="password"
-                    className="form-control"
-                    placeholder="Twoje hasło *"
-                  />
-
-                  <div className="form-group">
-                    <button type="button" className="btnSubmit" onClick={this.handleSubmit}>Zarejestruj</button>
+                  <div className="col-md-6">
+                    <label id="password"/>
+                    <input
+                      value={this.state.password}
+                      name="password"
+                      onChange={this.handleChange}
+                      type="password"
+                      className="form-control"
+                      placeholder="Twoje hasło *"
+                    />
+                    <div className="form-group">
+                      <button type="button" className="btnSubmit" onClick={this.handleSubmit}>Zarejestruj</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        </div>
-
-          <footer>
-            <div className="container-fluid padding">
-              <div className="row text-center">
-                <div className="col-md-1">
-                  <img src={Logo} alt="logo"/>
-                  <hr className="dark" />
-                  <p>
-                    777 777 777
-                  </p>
-                  <p>
-                    joannnabiala@gmail.com
-                  </p>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="dark" />
-                <p>©lets-work-pl.pl</p>
+        <footer>
+          <div className="container-fluid padding">
+            <div className="row text-center">
+              <div className="col-md-1">
+                <img src={Logo} alt="logo"/>
+                <hr className="dark"/>
+                <p>
+                  777 777 777
+                </p>
+                <p>
+                  joannnabiala@gmail.com
+                </p>
               </div>
             </div>
-          </footer>
+            <div className="text-center">
+              <div className="dark"/>
+              <p>©lets-work-pl.pl</p>
+            </div>
+          </div>
+        </footer>
       </div>
     );
   }
@@ -169,8 +150,6 @@ export default class Register extends React.Component {
         </div>
       )
     }
-
-    return null
+    return null;
   }
-
 }
