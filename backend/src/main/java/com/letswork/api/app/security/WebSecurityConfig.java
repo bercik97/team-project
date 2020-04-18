@@ -58,38 +58,40 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.exceptionHandling()
-                .authenticationEntryPoint(new CustomAuthenticationUnauthorizedHandler())
-                .and()
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers(SWAGGER_API).permitAll()
                 .antMatchers(NOT_AUTHENTICATED_API).permitAll()
-                //.antMatchers(AUTHENTICATED_API).authenticated()
+                .antMatchers(AUTHENTICATED_API).authenticated()
                 .anyRequest().authenticated()
-                .and()
+            .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationUnauthorizedHandler())
+            .and()
                 .formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
-                .successForwardUrl("/api/user-query")
                 .successHandler(new CustomAuthenticationSuccessHandler())
                 .failureHandler(new CustomAuthenticationFailureHandler())
                 .permitAll()
-                .and()
+            .and()
                 .logout()
                 .logoutUrl("/j_spring_security_logout")
                 .logoutSuccessHandler(new LogoutSuccessHandler(HttpStatus.OK))
                 .deleteCookies("JSESSIONID", "XSRF-TOKEN")
                 .invalidateHttpSession(true)
                 .permitAll()
-                .and()
+            .and()
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .ignoringAntMatchers("/j_spring_security_check", "/j_spring_security_logout", "/api/**", "/h2/**")
-                .and()
+            .and()
                 .cors()
-                .and()
-                .headers().frameOptions().sameOrigin()
-                .and()
-                .sessionManagement().maximumSessions(1);
+            .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+            .and()
+                .sessionManagement()
+                .maximumSessions(1);
     }
 
     private static final String[] SWAGGER_API = {
@@ -108,7 +110,5 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/auth/**"
     };
 
-    private static final String[] AUTHENTICATED_API = {
-            "/api/auth**"
-    };
+    private static final String[] AUTHENTICATED_API = {};
 }
