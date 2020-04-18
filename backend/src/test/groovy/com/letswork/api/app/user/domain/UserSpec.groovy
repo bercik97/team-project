@@ -2,6 +2,7 @@ package com.letswork.api.app.user.domain
 
 import com.letswork.api.app.token.domain.TokenFacade
 import com.letswork.api.app.user.domain.dto.CreateUserDto
+import com.letswork.api.app.user.domain.dto.SignInDto
 import com.letswork.api.app.user.domain.exception.InvalidUserException
 import spock.lang.Shared
 import spock.lang.Specification
@@ -133,5 +134,17 @@ class UserSpec extends Specification {
         password | confirmedPassword
         '123456' | '654321'
         '654321' | '123456'
+    }
+
+    def 'Should find SignIn dto by email'() {
+        given: 'new user'
+        String email = 'john@email.com'
+        userFacade.create(new CreateUserDto(email, '123456', '123456'))
+
+        when: 'we try to find dto by given email'
+        Optional<SignInDto> dto = userFacade.findByEmailToSignIn(email)
+
+        then: 'dto is present'
+        dto.isPresent()
     }
 }
