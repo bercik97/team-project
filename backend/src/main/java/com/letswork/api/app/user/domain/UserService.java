@@ -4,7 +4,10 @@ import com.letswork.api.app.token.domain.TokenEntity;
 import com.letswork.api.app.token.domain.TokenFacade;
 import com.letswork.api.app.token.domain.exception.InvalidTokenException;
 import com.letswork.api.app.user.domain.dto.CreateUserDto;
+import com.letswork.api.app.user.domain.dto.SignInDto;
 import lombok.AllArgsConstructor;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 public class UserService {
@@ -37,5 +40,10 @@ public class UserService {
     private void enableUserAccount(UserEntity user) {
         user.setEnabled(true);
         repository.save(user);
+    }
+
+    public Optional<SignInDto> findByEmailToSignIn(String email) {
+        return repository.findByEmail(email)
+                .map(SignInDto::convert);
     }
 }
