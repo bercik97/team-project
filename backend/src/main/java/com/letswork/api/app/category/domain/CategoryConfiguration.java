@@ -8,7 +8,8 @@ class CategoryConfiguration {
 
     @Bean
     CategoryFacade categoryFacade(CategoryRepository repository) {
-        CategoryService service = new CategoryService(repository);
+        CategoryValidator validator = new CategoryValidator();
+        CategoryService service = new CategoryService(repository, validator);
         return new CategoryFacade(service);
     }
 }
