@@ -147,4 +147,25 @@ class UserSpec extends Specification {
         then: 'dto is present'
         dto.isPresent()
     }
+
+    def 'Should find user by email'() {
+        given: 'new user'
+        String email = 'john@email.com'
+        userFacade.create(new CreateUserDto(email, '123456', '123456'))
+
+        when: 'we try to find user by given email'
+        UserEntity user = userFacade.findByEmail(email)
+
+        then: 'user is not null'
+        user != null
+    }
+
+    def 'Should throw an exception cause email does not exists in system'() {
+        when: 'we try to find user by non existing email'
+        userFacade.findByEmail("absolutely not existing email")
+
+        then: 'exception is thrown'
+        InvalidUserException exception = thrown()
+        exception.message == InvalidUserException.CAUSE.EMAIL_NOT_EXISTS.message
+    }
 }
