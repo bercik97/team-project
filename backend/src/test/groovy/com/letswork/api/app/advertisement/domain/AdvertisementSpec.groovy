@@ -1,12 +1,14 @@
 package com.letswork.api.app.advertisement.domain
 
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto
+import com.letswork.api.app.advertisement.domain.exception.InvalidAdvertisementException
 import com.letswork.api.app.user.domain.UserEntity
 import com.letswork.api.app.user.domain.UserFacade
 import com.letswork.api.app.user.domain.UserService
 import org.mockito.Mockito
 import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import java.util.concurrent.ConcurrentHashMap
 
@@ -44,5 +46,66 @@ class AdvertisementSpec extends Specification {
 
         then: 'system has advertisement'
         db.size() == 1
+    }
+
+    @Unroll
+    def 'Should throw an exception cause title is null, empty or blank = [#title]'(String title) {
+        when: 'we try to create an advertisement'
+        advertisementFacade.add(new CreateAdvertisementDto(title, 'some content'), 'john.doe@mail.com')
+
+        then: 'exception is thrown'
+        InvalidAdvertisementException exception = thrown()
+        exception.message == InvalidAdvertisementException.CAUSE.TITLE_EMPTY.message
+
+        where:
+        title | _
+        null  | _
+        ''    | _
+        '  '  | _
+    }
+
+    def 'Should throw an exception cause title length equals more than permissible length'() {
+        when: 'we try to create an advertisement'
+        String tooLongTitle = 'thisTitleIsAbsolutelyTooLongForEveryAdvertisementYouWantToAdd'
+        advertisementFacade.add(new CreateAdvertisementDto(tooLongTitle, 'some content'), 'john.doe@mail.com')
+
+        then: 'exception is thrown'
+        InvalidAdvertisementException exception = thrown()
+        exception.message == InvalidAdvertisementException.CAUSE.TITLE_WRONG_LENGTH.message
+    }
+
+    @Unroll
+    def 'Should throw an exception cause content is null, empty or blank = [#content]'(String content) {
+        when: 'we try to create an advertisement'
+        advertisementFacade.add(new CreateAdvertisementDto('title', content), 'john.doe@mail.com')
+
+        then: 'exception is thrown'
+        InvalidAdvertisementException exception = thrown()
+        exception.message == InvalidAdvertisementException.CAUSE.CONTENT_EMPTY.message
+
+        where:
+        content | _
+        null    | _
+        ''      | _
+        '  '    | _
+    }
+
+    def 'Should throw an exception cause content length equals more than permissible length'() {
+        when: 'we try to create an advertisement'
+        String tooLongContent = prepareMoreThan1000CharactersContentLength()
+        advertisementFacade.add(new CreateAdvertisementDto('title', tooLongContent), 'john.doe@mail.com')
+
+        then: 'exception is thrown'
+        InvalidAdvertisementException exception = thrown()
+        exception.message == InvalidAdvertisementException.CAUSE.CONTENT_WRONG_LENGTH.message
+    }
+
+    private static String prepareMoreThan1000CharactersContentLength() {
+        String tooLongContent = 'thisContentIsAbsolutelyTooLongForEveryAdvertisementYouWantToAdd'
+        StringBuilder sb = new StringBuilder()
+        for (int i = 0; i < 20; i++) {
+            sb.append(tooLongContent)
+        }
+        return sb.toString()
     }
 }
