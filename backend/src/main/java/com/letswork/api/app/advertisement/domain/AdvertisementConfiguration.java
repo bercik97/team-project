@@ -13,7 +13,8 @@ class AdvertisementConfiguration {
     AdvertisementFacade advertisementFacade(AdvertisementRepository repository,
                                             UserFacade userFacade) {
         AdvertisementFactory factory = new AdvertisementFactory();
-        AdvertisementService service = new AdvertisementService(repository, factory, userFacade);
+        AdvertisementValidator validator = new AdvertisementValidator();
+        AdvertisementService service = new AdvertisementService(repository, factory, validator, userFacade);
         return new AdvertisementFacade(service);
     }
 
@@ -21,7 +22,8 @@ class AdvertisementConfiguration {
                                             UserFacade userFacade) {
         AdvertisementInMemoryRepository repository = new AdvertisementInMemoryRepository(db);
         AdvertisementFactory factory = new AdvertisementFactory();
-        AdvertisementService service = new AdvertisementService(repository, factory, userFacade);
+        AdvertisementValidator validator = new AdvertisementValidator();
+        AdvertisementService service = new AdvertisementService(repository, factory, validator, userFacade);
         return new AdvertisementFacade(service);
     }
 }

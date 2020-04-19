@@ -10,10 +10,12 @@ public class AdvertisementService {
 
     private final AdvertisementRepository repository;
     private final AdvertisementFactory factory;
+    private final AdvertisementValidator validator;
     private final UserFacade userFacade;
 
     public void add(CreateAdvertisementDto dto, String userEmail) {
         UserEntity user = userFacade.findByEmail(userEmail);
+        validator.validate(dto);
         repository.save(factory.create(dto, user));
     }
 }

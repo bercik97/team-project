@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -24,10 +25,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AdvertisementEntity extends BaseEntity {
 
+    @Column(length = 40, nullable = false)
     private String title;
 
+    @Column(length = 1000, nullable = false)
     private String content;
 
+    @Column(nullable = false)
     private LocalDateTime date;
 
     @JsonIgnore
