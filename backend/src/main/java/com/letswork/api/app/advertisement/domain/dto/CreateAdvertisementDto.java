@@ -9,4 +9,5 @@ public class CreateAdvertisementDto {
 
     private String title;
     private String content;
+    private String categoryName;
 }
