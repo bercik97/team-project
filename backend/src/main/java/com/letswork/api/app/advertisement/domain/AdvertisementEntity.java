@@ -36,10 +36,12 @@ public class AdvertisementEntity extends BaseEntity {
     private LocalDateTime date;
 
     @JsonIgnore
+    @Column(nullable = false)
     @ManyToOne(cascade = CascadeType.REMOVE)
     private UserEntity user;
 
     @JsonIgnore
+    @Column(nullable = false)
     @ManyToOne(cascade = CascadeType.REMOVE)
     private CategoryEntity category;
 }
