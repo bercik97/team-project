@@ -3,6 +3,7 @@ package com.letswork.api.app.advertisement.domain;
 import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
