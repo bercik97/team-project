@@ -2,6 +2,7 @@ package com.letswork.api.app.user.domain;
 
 import lombok.AllArgsConstructor;
 
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @AllArgsConstructor
@@ -27,8 +28,9 @@ class UserInMemoryRepository implements UserRepository {
     }
 
     @Override
-    public void enableUserAccount(UserEntity user) {
-        UserEntity userEntity = map.get(user.getEmail());
-        userEntity.setEnabled(true);
+    public Optional<UserEntity> findByEmail(String email) {
+        return map.values()
+                .stream().filter(e -> e.getEmail().equals(email))
+                .findFirst();
     }
 }

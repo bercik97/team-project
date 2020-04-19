@@ -1,8 +1,8 @@
 package com.letswork.api.app.user.domain;
 
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+
+import java.util.Optional;
 
 interface UserRepository extends Repository<UserEntity, Long> {
 
@@ -12,7 +12,5 @@ interface UserRepository extends Repository<UserEntity, Long> {
 
     void delete(UserEntity user);
 
-    @Modifying
-    @Query("UPDATE UserEntity user SET user.isEnabled = true WHERE user = ?1")
-    void enableUserAccount(UserEntity user);
+    Optional<UserEntity> findByEmail(String email);
 }
