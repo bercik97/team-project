@@ -110,5 +110,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/auth/**"
     };
 
-    private static final String[] AUTHENTICATED_API = {};
+    private static final String[] AUTHENTICATED_API = {
+            "/api/advertisements/**"
+    };
 }

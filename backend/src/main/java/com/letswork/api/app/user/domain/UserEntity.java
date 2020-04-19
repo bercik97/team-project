@@ -1,5 +1,6 @@
 package com.letswork.api.app.user.domain;
 
+import com.letswork.api.app.advertisement.domain.AdvertisementEntity;
 import com.letswork.api.app.shared.BaseEntity;
 import com.letswork.api.app.token.domain.TokenEntity;
 import lombok.AllArgsConstructor;
@@ -11,8 +12,10 @@ import lombok.Setter;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -34,4 +37,7 @@ public class UserEntity extends BaseEntity {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private TokenEntity token;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<AdvertisementEntity> advertisements;
 }

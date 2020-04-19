@@ -5,6 +5,7 @@ import com.letswork.api.app.token.domain.TokenFacade;
 import com.letswork.api.app.token.domain.exception.InvalidTokenException;
 import com.letswork.api.app.user.domain.dto.CreateUserDto;
 import com.letswork.api.app.user.domain.dto.SignInDto;
+import com.letswork.api.app.user.domain.exception.InvalidUserException;
 import lombok.AllArgsConstructor;
 
 import java.util.Optional;
@@ -45,5 +46,10 @@ public class UserService {
     public Optional<SignInDto> findByEmailToSignIn(String email) {
         return repository.findByEmail(email)
                 .map(SignInDto::convert);
+    }
+
+    public UserEntity findByEmail(String email) {
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new InvalidUserException(InvalidUserException.CAUSE.EMAIL_NOT_EXISTS));
     }
 }

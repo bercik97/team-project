@@ -22,4 +22,8 @@ public class UserFacade {
     public Optional<SignInDto> findByEmailToSignIn(String email) {
         return service.findByEmailToSignIn(email);
     }
+
+    public UserEntity findByEmail(String email) {
+        return service.findByEmail(email);
+    }
 }
