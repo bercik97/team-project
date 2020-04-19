@@ -9,4 +9,6 @@ interface AdvertisementRepository extends Repository<AdvertisementEntity, Long> 
     void save(AdvertisementEntity advertisement);
 
     List<AdvertisementEntity> findAll();
+
+    List<AdvertisementEntity> findAllByCategoryName(String categoryName);
 }

@@ -27,8 +27,14 @@ public class AdvertisementService {
         repository.save(factory.create(dto, user, category));
     }
 
-    public List<AdvertisementDto> findAll() {
-        return repository.findAll()
+    public List<AdvertisementDto> findAllWithOrWithoutCategoryNameFilter(String categoryName) {
+        if (categoryName == null) {
+            return repository.findAll()
+                    .stream()
+                    .map(AdvertisementDto::convert)
+                    .collect(Collectors.toList());
+        }
+        return repository.findAllByCategoryName(categoryName)
                 .stream()
                 .map(AdvertisementDto::convert)
                 .collect(Collectors.toList());

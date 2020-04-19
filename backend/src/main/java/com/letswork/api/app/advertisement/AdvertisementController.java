@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +28,12 @@ class AdvertisementController {
         facade.add(dto, authentication.getName());
     }
 
-    @GetMapping("find")
-    @ApiOperation("Find all advertisements")
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(facade.findAll());
+    @GetMapping(path = {
+            "find",
+            "find/{categoryName}"
+    })
+    @ApiOperation("Find advertisements and filter them by given category name")
+    public ResponseEntity<?> findAllWithOrWithoutCategoryNameFilter(@PathVariable(required = false) String categoryName) {
+        return ResponseEntity.ok(facade.findAllWithOrWithoutCategoryNameFilter(categoryName));
     }
 }

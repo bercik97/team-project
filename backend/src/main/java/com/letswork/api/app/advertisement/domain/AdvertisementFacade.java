@@ -15,7 +15,7 @@ public class AdvertisementFacade {
         service.add(dto, userEmail);
     }
 
-    public List<AdvertisementDto> findAll() {
-        return service.findAll();
+    public List<AdvertisementDto> findAllWithOrWithoutCategoryNameFilter(String categoryName) {
+        return service.findAllWithOrWithoutCategoryNameFilter(categoryName);
     }
 }
