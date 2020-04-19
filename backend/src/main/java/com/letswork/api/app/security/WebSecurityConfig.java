@@ -108,7 +108,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/h2/**",
             "/api/users/**",
             "/api/auth/**",
-            "/api/advertisements/find/**"
+            "/api/advertisements/find/**",
+            "/api/categories/**"
     };
 
     private static final String[] AUTHENTICATED_API = {

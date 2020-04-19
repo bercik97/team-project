@@ -2,6 +2,8 @@ package com.letswork.api.app.category.domain;
 
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 public class CategoryService {
 
@@ -11,5 +13,9 @@ public class CategoryService {
     public CategoryEntity findByCategoryName(String categoryName) {
         validator.validateCategoryName(categoryName);
         return repository.findByName(categoryName);
+    }
+
+    public List<CategoryEntity> findAll() {
+        return repository.findAll();
     }
 }
