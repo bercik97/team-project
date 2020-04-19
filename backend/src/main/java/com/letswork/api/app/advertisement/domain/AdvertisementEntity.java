@@ -1,6 +1,7 @@
 package com.letswork.api.app.advertisement.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.letswork.api.app.category.domain.CategoryEntity;
 import com.letswork.api.app.shared.BaseEntity;
 import com.letswork.api.app.user.domain.UserEntity;
 import lombok.AllArgsConstructor;
@@ -37,4 +38,8 @@ public class AdvertisementEntity extends BaseEntity {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
     private UserEntity user;
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private CategoryEntity category;
 }
