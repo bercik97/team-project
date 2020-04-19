@@ -1,7 +1,10 @@
 package com.letswork.api.app.advertisement.domain;
 
+import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
 import lombok.AllArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 public class AdvertisementFacade {
@@ -10,5 +13,9 @@ public class AdvertisementFacade {
 
     public void add(CreateAdvertisementDto dto, String userEmail) {
         service.add(dto, userEmail);
+    }
+
+    public List<AdvertisementDto> findAll() {
+        return service.findAll();
     }
 }

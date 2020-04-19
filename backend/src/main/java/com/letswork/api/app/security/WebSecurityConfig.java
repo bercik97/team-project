@@ -107,10 +107,11 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] NOT_AUTHENTICATED_API = {
             "/h2/**",
             "/api/users/**",
-            "/api/auth/**"
+            "/api/auth/**",
+            "/api/advertisements/find"
     };
 
     private static final String[] AUTHENTICATED_API = {
-            "/api/advertisements/**"
+            "/api/advertisements/add"
     };
 }
