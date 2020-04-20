@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +36,11 @@ class AdvertisementController {
     @ApiOperation("Find advertisements and filter them by given category name")
     public ResponseEntity<?> findAllWithOrWithoutCategoryNameFilter(@PathVariable(required = false) String categoryName) {
         return ResponseEntity.ok(facade.findAllWithOrWithoutCategoryNameFilter(categoryName));
+    }
+
+    @DeleteMapping("delete")
+    @ApiOperation("Delete all advertisements")
+    public void deleteAll(Authentication authentication) {
+        facade.deleteAll(authentication.getName());
     }
 }

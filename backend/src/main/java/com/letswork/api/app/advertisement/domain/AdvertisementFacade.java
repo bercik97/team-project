@@ -4,6 +4,7 @@ import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
 import lombok.AllArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,5 +22,10 @@ public class AdvertisementFacade {
 
     public AdvertisementEntity findById(Long advertisementId) {
         return service.findById(advertisementId);
+    }
+
+    @Transactional
+    public void deleteAll(String userEmail) {
+        service.deleteAll(userEmail);
     }
 }
