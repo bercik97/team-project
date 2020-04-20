@@ -2,6 +2,7 @@ package com.letswork.api.app.advertisement.domain.dto;
 
 import com.letswork.api.app.advertisement.domain.AdvertisementEntity;
 import com.letswork.api.app.category.domain.CategoryEntity;
+import com.letswork.api.app.job_application.domain.JobApplicationEntity;
 import com.letswork.api.app.user.domain.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Getter
@@ -22,6 +24,7 @@ public class AdvertisementDto {
     private LocalDateTime date;
     private String authorEmail;
     private String categoryName;
+    private List<JobApplicationEntity> jobApplications;
 
     public static AdvertisementDto convert(AdvertisementEntity advertisement) {
         UserEntity user = advertisement.getUser();
@@ -33,6 +36,7 @@ public class AdvertisementDto {
                 .date(advertisement.getDate())
                 .authorEmail(user.getEmail())
                 .categoryName(category.getName())
+                .jobApplications(advertisement.getJobApplications())
                 .build();
     }
 }

@@ -11,4 +11,6 @@ interface AdvertisementRepository extends Repository<AdvertisementEntity, Long> 
     List<AdvertisementEntity> findAll();
 
     List<AdvertisementEntity> findAllByCategoryName(String categoryName);
+
+    AdvertisementEntity findById(Long advertisementId);
 }
