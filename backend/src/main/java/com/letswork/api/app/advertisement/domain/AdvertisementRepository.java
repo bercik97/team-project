@@ -17,4 +17,6 @@ interface AdvertisementRepository extends Repository<AdvertisementEntity, Long> 
     Optional<AdvertisementEntity> findById(Long advertisementId);
 
     void deleteAllByUserEmail(String userEmail);
+
+    void deleteByIdAndUserEmail(Long id, String userEmail);
 }

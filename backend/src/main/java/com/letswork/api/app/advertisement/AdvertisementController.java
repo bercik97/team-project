@@ -43,4 +43,10 @@ class AdvertisementController {
     public void deleteAll(Authentication authentication) {
         facade.deleteAll(authentication.getName());
     }
+
+    @DeleteMapping("delete/{id}")
+    @ApiOperation("Delete advertisement by id")
+    public void deleteById(@PathVariable Long id, Authentication authentication) {
+        facade.deleteById(id, authentication.getName());
+    }
 }

@@ -28,4 +28,9 @@ public class AdvertisementFacade {
     public void deleteAll(String userEmail) {
         service.deleteAll(userEmail);
     }
+
+    @Transactional
+    public void deleteById(Long id, String userEmail) {
+        service.deleteById(id, userEmail);
+    }
 }

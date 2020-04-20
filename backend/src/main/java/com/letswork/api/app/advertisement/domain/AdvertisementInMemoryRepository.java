@@ -50,4 +50,13 @@ class AdvertisementInMemoryRepository implements AdvertisementRepository {
                 .collect(Collectors.toList())
                 .clear();
     }
+
+    @Override
+    public void deleteByIdAndUserEmail(Long id, String userEmail) {
+        map.values()
+                .stream()
+                .filter(a -> a.getId().equals(id) && a.getUser().getEmail().equals(userEmail))
+                .collect(Collectors.toList())
+                .clear();
+    }
 }

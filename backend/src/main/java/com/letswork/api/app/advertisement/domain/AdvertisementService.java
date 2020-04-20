@@ -50,4 +50,8 @@ public class AdvertisementService {
     public void deleteAll(String userEmail) {
         repository.deleteAllByUserEmail(userEmail);
     }
+
+    public void deleteById(Long id, String userEmail) {
+        repository.deleteByIdAndUserEmail(id, userEmail);
+    }
 }
