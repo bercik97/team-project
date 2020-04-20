@@ -3,6 +3,7 @@ package com.letswork.api.app.advertisement.domain;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 interface AdvertisementRepository extends Repository<AdvertisementEntity, Long> {
 
@@ -12,5 +13,5 @@ interface AdvertisementRepository extends Repository<AdvertisementEntity, Long> 
 
     List<AdvertisementEntity> findAllByCategoryName(String categoryName);
 
-    AdvertisementEntity findById(Long advertisementId);
+    Optional<AdvertisementEntity> findById(Long advertisementId);
 }

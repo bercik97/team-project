@@ -13,9 +13,11 @@ class JobApplicationConfiguration {
     JobApplicationFacade jobApplicationFacade(JobApplicationRepository repository,
                                               AdvertisementFacade advertisementFacade) {
         JobApplicationFactory factory = new JobApplicationFactory();
+        JobApplicationValidator validator = new JobApplicationValidator();
         JobApplicationService service = new JobApplicationService(
                 repository,
                 factory,
+                validator,
                 advertisementFacade
         );
         return new JobApplicationFacade(service);
@@ -25,9 +27,11 @@ class JobApplicationConfiguration {
                                               AdvertisementFacade advertisementFacade) {
         JobApplicationInMemoryRepository repository = new JobApplicationInMemoryRepository(db);
         JobApplicationFactory factory = new JobApplicationFactory();
+        JobApplicationValidator validator = new JobApplicationValidator();
         JobApplicationService service = new JobApplicationService(
                 repository,
                 factory,
+                validator,
                 advertisementFacade
         );
         return new JobApplicationFacade(service);
