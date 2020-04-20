@@ -2,6 +2,7 @@ package com.letswork.api.app.advertisement.domain;
 
 import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
+import com.letswork.api.app.advertisement.domain.dto.UpdateAdvertisementDto;
 import lombok.AllArgsConstructor;
 
 import javax.transaction.Transactional;
@@ -32,5 +33,10 @@ public class AdvertisementFacade {
     @Transactional
     public void deleteById(Long id, String userEmail) {
         service.deleteById(id, userEmail);
+    }
+
+    @Transactional
+    public void update(Long id, UpdateAdvertisementDto dto) {
+        service.update(id, dto);
     }
 }
