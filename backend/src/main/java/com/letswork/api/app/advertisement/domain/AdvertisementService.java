@@ -2,6 +2,7 @@ package com.letswork.api.app.advertisement.domain;
 
 import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
+import com.letswork.api.app.advertisement.domain.dto.UpdateAdvertisementDto;
 import com.letswork.api.app.advertisement.domain.exception.InvalidAdvertisementException;
 import com.letswork.api.app.category.domain.CategoryEntity;
 import com.letswork.api.app.category.domain.CategoryFacade;
@@ -10,6 +11,7 @@ import com.letswork.api.app.user.domain.UserFacade;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -54,5 +56,13 @@ public class AdvertisementService {
     public void deleteById(Long id, String userEmail) {
         validator.validate(id);
         repository.deleteByIdAndUserEmail(id, userEmail);
+    }
+
+    public void update(Long id, UpdateAdvertisementDto dto) {
+        Optional<AdvertisementEntity> advertisement = repository.findById(id);
+        AdvertisementEntity advertisementEntity = advertisement.get();
+
+        advertisementEntity.setTitle(dto.getNewTitle());
+        advertisementEntity.setContent(dto.getNewContent());
     }
 }

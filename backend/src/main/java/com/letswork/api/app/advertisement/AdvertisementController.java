@@ -2,6 +2,7 @@ package com.letswork.api.app.advertisement;
 
 import com.letswork.api.app.advertisement.domain.AdvertisementFacade;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
+import com.letswork.api.app.advertisement.domain.dto.UpdateAdvertisementDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +38,12 @@ class AdvertisementController {
     @ApiOperation("Find advertisements and filter them by given category name")
     public ResponseEntity<?> findAllWithOrWithoutCategoryNameFilter(@PathVariable(required = false) String categoryName) {
         return ResponseEntity.ok(facade.findAllWithOrWithoutCategoryNameFilter(categoryName));
+    }
+
+    @PutMapping("update/{id}")
+    @ApiOperation("Update title and content of advertisement")
+    public void update(@PathVariable Long id, @RequestBody UpdateAdvertisementDto dto) {
+        facade.update(id, dto);
     }
 
     @DeleteMapping("delete")
