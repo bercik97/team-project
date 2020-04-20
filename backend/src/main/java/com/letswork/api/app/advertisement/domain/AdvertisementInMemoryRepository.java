@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -32,12 +33,12 @@ class AdvertisementInMemoryRepository implements AdvertisementRepository {
     }
 
     @Override
-    public AdvertisementEntity findById(Long advertisementId) {
-        return map.values()
+    public Optional<AdvertisementEntity> findById(Long advertisementId) {
+        return Optional.of(map.values()
                 .stream()
                 .filter(c -> c.getId().equals(advertisementId))
                 .findFirst()
                 .orElseThrow(() ->
-                        new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS));
+                        new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS)));
     }
 }

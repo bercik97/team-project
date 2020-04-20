@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -24,8 +25,10 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class JobApplicationEntity extends BaseEntity {
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(length = 500, nullable = false)
     private String message;
 
     @JsonIgnore

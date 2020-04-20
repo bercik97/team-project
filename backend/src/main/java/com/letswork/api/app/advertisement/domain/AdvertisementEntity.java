@@ -14,6 +14,7 @@ import lombok.Setter;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -46,6 +47,6 @@ public class AdvertisementEntity extends BaseEntity {
     @ManyToOne(cascade = CascadeType.REMOVE)
     private CategoryEntity category;
 
-    @OneToMany(mappedBy = "advertisement", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "advertisement", cascade = CascadeType.REMOVE)
     private List<JobApplicationEntity> jobApplications;
 }

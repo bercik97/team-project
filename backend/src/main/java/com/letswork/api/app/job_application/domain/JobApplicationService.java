@@ -10,10 +10,13 @@ class JobApplicationService {
 
     private final JobApplicationRepository repository;
     private final JobApplicationFactory factory;
+    private final JobApplicationValidator validator;
     private final AdvertisementFacade advertisementFacade;
 
     public void add(CreateJobApplicationDto dto, String email) {
+        validator.validate(dto.getMessage());
         AdvertisementEntity advertisement = advertisementFacade.findById(dto.getAdvertisementId());
-        repository.save(factory.create(email, dto, advertisement));
+        JobApplicationEntity jobApplicationEntity = factory.create(email, dto, advertisement);
+        repository.save(jobApplicationEntity);
     }
 }
