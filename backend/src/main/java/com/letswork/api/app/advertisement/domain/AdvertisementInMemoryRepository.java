@@ -41,4 +41,13 @@ class AdvertisementInMemoryRepository implements AdvertisementRepository {
                 .orElseThrow(() ->
                         new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS)));
     }
+
+    @Override
+    public void deleteAllByUserEmail(String userEmail) {
+        map.values()
+                .stream()
+                .filter(a -> a.getUser().getEmail().equals(userEmail))
+                .collect(Collectors.toList())
+                .clear();
+    }
 }

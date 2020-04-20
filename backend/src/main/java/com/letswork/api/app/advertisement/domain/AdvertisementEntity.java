@@ -40,11 +40,11 @@ public class AdvertisementEntity extends BaseEntity {
     private LocalDateTime date;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private UserEntity user;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private CategoryEntity category;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "advertisement", cascade = CascadeType.REMOVE)

@@ -46,4 +46,8 @@ public class AdvertisementService {
         return repository.findById(advertisementId)
                 .orElseThrow(() -> new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS));
     }
+
+    public void deleteAll(String userEmail) {
+        repository.deleteAllByUserEmail(userEmail);
+    }
 }
