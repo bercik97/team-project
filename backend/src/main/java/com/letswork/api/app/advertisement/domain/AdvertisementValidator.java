@@ -1,7 +1,6 @@
 package com.letswork.api.app.advertisement.domain;
 
 import com.google.common.base.Strings;
-import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
 import com.letswork.api.app.advertisement.domain.exception.InvalidAdvertisementException;
 import lombok.AllArgsConstructor;
 
@@ -10,9 +9,9 @@ class AdvertisementValidator {
 
     private final AdvertisementRepository repository;
 
-    public void validate(CreateAdvertisementDto dto) {
-        validateTitle(dto.getTitle());
-        validateContent(dto.getContent());
+    public void validate(String title, String content) {
+        validateTitle(title);
+        validateContent(content);
     }
 
     private void validateTitle(String title) {

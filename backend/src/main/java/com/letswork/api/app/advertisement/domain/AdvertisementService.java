@@ -26,7 +26,7 @@ public class AdvertisementService {
     public void add(CreateAdvertisementDto dto, String userEmail) {
         UserEntity user = userFacade.findByEmail(userEmail);
         CategoryEntity category = categoryFacade.findByCategoryName(dto.getCategoryName());
-        validator.validate(dto);
+        validator.validate(dto.getTitle(), dto.getContent());
         AdvertisementEntity advertisementEntity = factory.create(dto, user, category);
         repository.save(advertisementEntity);
     }
@@ -59,10 +59,18 @@ public class AdvertisementService {
     }
 
     public void update(Long id, UpdateAdvertisementDto dto) {
-        Optional<AdvertisementEntity> advertisement = repository.findById(id);
-        AdvertisementEntity advertisementEntity = advertisement.get();
+        Optional<AdvertisementEntity> optionalAdvertisement = repository.findById(id);
+        if (optionalAdvertisement.isEmpty()) {
+            throw new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS);
+        }
+        String newTitle = dto.getNewTitle();
+        String newContent = dto.getNewContent();
 
-        advertisementEntity.setTitle(dto.getNewTitle());
-        advertisementEntity.setContent(dto.getNewContent());
+        validator.validate(newTitle, newContent);
+
+        AdvertisementEntity advertisement = optionalAdvertisement.get();
+
+        advertisement.setTitle(newTitle);
+        advertisement.setContent(newContent);
     }
 }
