@@ -39,4 +39,8 @@ public class AdvertisementService {
                 .map(AdvertisementDto::convert)
                 .collect(Collectors.toList());
     }
+
+    public AdvertisementEntity findById(Long advertisementId) {
+        return repository.findById(advertisementId);
+    }
 }

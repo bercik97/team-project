@@ -3,7 +3,6 @@ package com.letswork.api.app.advertisement.domain;
 import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -18,5 +17,9 @@ public class AdvertisementFacade {
 
     public List<AdvertisementDto> findAllWithOrWithoutCategoryNameFilter(String categoryName) {
         return service.findAllWithOrWithoutCategoryNameFilter(categoryName);
+    }
+
+    public AdvertisementEntity findById(Long advertisementId) {
+        return service.findById(advertisementId);
     }
 }

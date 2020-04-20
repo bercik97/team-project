@@ -12,7 +12,8 @@ public class InvalidAdvertisementException extends ParameterizedException {
         TITLE_EMPTY("Tytuł nie może być pusty"),
         TITLE_WRONG_LENGTH("Tytuł powinien zawierać maksymalnie 40 znaków"),
         CONTENT_EMPTY("Zawartość nie może być pusta"),
-        CONTENT_WRONG_LENGTH("Zawartość powinna zawierać maksymalnie 1000 znaków");
+        CONTENT_WRONG_LENGTH("Zawartość powinna zawierać maksymalnie 1000 znaków"),
+        ADVERTISEMENT_NOT_EXISTS("Ogłoszenie nie istnieje");
 
         String message;
     }

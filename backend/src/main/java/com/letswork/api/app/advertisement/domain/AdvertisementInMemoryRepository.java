@@ -1,5 +1,6 @@
 package com.letswork.api.app.advertisement.domain;
 
+import com.letswork.api.app.advertisement.domain.exception.InvalidAdvertisementException;
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
@@ -28,5 +29,15 @@ class AdvertisementInMemoryRepository implements AdvertisementRepository {
                 .stream()
                 .filter(a -> categoryName.equals(a.getCategory().getName()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AdvertisementEntity findById(Long advertisementId) {
+        return map.values()
+                .stream()
+                .filter(c -> c.getId().equals(advertisementId))
+                .findFirst()
+                .orElseThrow(() ->
+                        new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS));
     }
 }

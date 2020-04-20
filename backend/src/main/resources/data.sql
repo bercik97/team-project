@@ -15,3 +15,9 @@ INSERT INTO advertisements (id, title, content, date, user_id, category_id) VALU
 (3, 'Starszy Specjalista - Finanse', 'Poszukujemy osoby z 10 letnim doświadczeniem na stanowisko starszy specjalista do spraw finansów', '2020-01-19 12:12:12.122222', 1, 2),
 (4, 'Programista aplikacji mobilnych', 'Poszukujemy osoby z 2 letnim doświadczeniem na stanowisko programisty mobilnych aplikacji w technologii Flutter', '2020-05-02 09:23:59.732454', 1, 3),
 (5, 'Specjalista ds. sprzedaży internetowej', 'Poszukujemy osoby z 3 letnim doświadczeniem na stanowisko specjalista ds. sprzedaży internetowej', '2020-04-10 10:12:54.732454', 1, 4);
+
+INSERT INTO job_applications (id, email, message, advertisement_id) VALUES
+(1, 'joe@mail.com', 'Posiadam 5 lat doświadczenia jako programista apikacji mobilnych w technologii Flutter, czy możemy się skontakować?', 4),
+(2, 'tim@mail.com', 'Posiadam 2 lata doświadczenia jako programista apikacji mobilnych. Proszę o kontakt, pozdrawiam!', 4),
+(3, 'tim@mail.com', 'Posiadam rok doświadczenia w branży sprzedaży internetowej, lecz szybko się uczę. Proszę o kontakt :)', 5),
+(4, 'joe@mail.com', 'Posiadam 4 lat doświadczenia jako analityk dużego europejskiego projektu IT, proszę o kontakt', 1);
