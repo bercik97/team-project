@@ -1,10 +1,10 @@
 spring:
 
   datasource:
-    url: jdbc:h2:~/letswork
-    username: work
-    password: work
-    driverClassName: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/lets-work
+    username: postgres
+    password: admin
+    driverClassName: org.postgresql.Driver
     initialization-mode: always
 
   jpa:

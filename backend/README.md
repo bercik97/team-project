@@ -18,12 +18,12 @@ Aplikacja zostanie uruchomiona na porcie 8080
 
 ### Baza danych
 
-Baza znajduję się pod adresem: <b>http://localhost:8080/h2</b> <br>
-
-Driver Class: org.h2.Driver <br>
-JDBC URL: jdbc:h2:~/letswork <br>
-Username: work <br>
-Password: work <br>
+DB: PostgreSQL <br>
+Host: localhost <br>
+Port: 5432 <br>
+Username: postgres
+Password: admin
+Schema: lets-work
 
 ### API
 
