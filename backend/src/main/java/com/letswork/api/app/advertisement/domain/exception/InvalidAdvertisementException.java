@@ -13,7 +13,8 @@ public class InvalidAdvertisementException extends ParameterizedException {
         TITLE_WRONG_LENGTH("Tytuł powinien zawierać maksymalnie 40 znaków"),
         CONTENT_EMPTY("Zawartość nie może być pusta"),
         CONTENT_WRONG_LENGTH("Zawartość powinna zawierać maksymalnie 1000 znaków"),
-        ADVERTISEMENT_NOT_EXISTS("Ogłoszenie nie istnieje");
+        ADVERTISEMENT_NOT_EXISTS("Ogłoszenie nie istnieje"),
+        ADVERTISEMENT_CANNOT_BE_DELETED("Ogłoszenie nie może być usunięte");
 
         String message;
     }

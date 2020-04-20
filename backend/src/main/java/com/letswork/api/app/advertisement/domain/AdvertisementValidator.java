@@ -3,8 +3,12 @@ package com.letswork.api.app.advertisement.domain;
 import com.google.common.base.Strings;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
 import com.letswork.api.app.advertisement.domain.exception.InvalidAdvertisementException;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 class AdvertisementValidator {
+
+    private final AdvertisementRepository repository;
 
     public void validate(CreateAdvertisementDto dto) {
         validateTitle(dto.getTitle());
@@ -36,6 +40,12 @@ class AdvertisementValidator {
 
         if (cause != null) {
             throw new InvalidAdvertisementException(cause);
+        }
+    }
+
+    public void validate(Long id) {
+        if (!repository.existsById(id)) {
+            throw new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_CANNOT_BE_DELETED);
         }
     }
 }

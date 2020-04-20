@@ -15,7 +15,7 @@ class AdvertisementConfiguration {
                                             UserFacade userFacade,
                                             CategoryFacade categoryFacade) {
         AdvertisementFactory factory = new AdvertisementFactory();
-        AdvertisementValidator validator = new AdvertisementValidator();
+        AdvertisementValidator validator = new AdvertisementValidator(repository);
         AdvertisementService service = new AdvertisementService(
                 repository,
                 factory,
@@ -30,7 +30,7 @@ class AdvertisementConfiguration {
                                             CategoryFacade categoryFacade) {
         AdvertisementInMemoryRepository repository = new AdvertisementInMemoryRepository(db);
         AdvertisementFactory factory = new AdvertisementFactory();
-        AdvertisementValidator validator = new AdvertisementValidator();
+        AdvertisementValidator validator = new AdvertisementValidator(repository);
         AdvertisementService service = new AdvertisementService(
                 repository,
                 factory,
