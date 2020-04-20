@@ -59,4 +59,15 @@ class AdvertisementInMemoryRepository implements AdvertisementRepository {
                 .collect(Collectors.toList())
                 .clear();
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        for (AdvertisementEntity advertisement : map.values()) {
+            Long iteratedId = advertisement.getId();
+            if (iteratedId.equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

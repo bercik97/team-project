@@ -52,6 +52,7 @@ public class AdvertisementService {
     }
 
     public void deleteById(Long id, String userEmail) {
+        validator.validate(id);
         repository.deleteByIdAndUserEmail(id, userEmail);
     }
 }
