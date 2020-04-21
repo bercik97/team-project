@@ -23,11 +23,6 @@ class UserInMemoryRepository implements UserRepository {
     }
 
     @Override
-    public void delete(UserEntity user) {
-        map.remove(user.getEmail());
-    }
-
-    @Override
     public Optional<UserEntity> findByEmail(String email) {
         return map.values()
                 .stream().filter(e -> e.getEmail().equals(email))

@@ -10,7 +10,5 @@ interface UserRepository extends Repository<UserEntity, Long> {
 
     boolean existsByEmail(String email);
 
-    void delete(UserEntity user);
-
     Optional<UserEntity> findByEmail(String email);
 }

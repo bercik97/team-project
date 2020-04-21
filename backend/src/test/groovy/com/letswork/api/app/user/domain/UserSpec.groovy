@@ -1,14 +1,17 @@
 package com.letswork.api.app.user.domain
 
+import com.letswork.api.app.token.domain.TokenEntity
 import com.letswork.api.app.token.domain.TokenFacade
 import com.letswork.api.app.user.domain.dto.CreateUserDto
 import com.letswork.api.app.user.domain.dto.SignInDto
 import com.letswork.api.app.user.domain.exception.InvalidUserException
+import org.mockito.Mockito
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
 
 class UserSpec extends Specification {
 
@@ -16,7 +19,7 @@ class UserSpec extends Specification {
     private UserFacade userFacade
 
     @Shared
-    private TokenFacade tokenFacade = Mock()
+    private TokenFacade tokenFacade = Mockito.mock(TokenFacade.class)
 
     @Shared
     private ConcurrentHashMap<String, UserEntity> db
@@ -134,6 +137,22 @@ class UserSpec extends Specification {
         password | confirmedPassword
         '123456' | '654321'
         '654321' | '123456'
+    }
+
+    def 'Should confirm user account by passing confirmation token'() {
+        given: 'user with confirmation token'
+        UserEntity user = new UserEntity('john@mail.com', '123456', false, null, Collections.emptyList())
+        String confirmationToken = UUID.randomUUID().toString()
+        String currentTimeInSecondsAsString = String.valueOf(TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis())));
+        TokenEntity token = new TokenEntity(confirmationToken, currentTimeInSecondsAsString, user)
+        user.setToken(token)
+
+        when: 'we try to confirm account'
+        Mockito.when(tokenFacade.findTokenByConfirmationToken(confirmationToken)).thenReturn(token)
+        userFacade.confirmAccount(confirmationToken)
+
+        then: 'user account is enabled'
+        user.enabled
     }
 
     def 'Should find SignIn dto by email'() {
