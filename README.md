@@ -49,4 +49,4 @@
    
 <h1>Diagram UML</h1> 
 
-![ScreenShot](documentation/uml.jpeg)
+![ScreenShot](documentation/uml.png)
