@@ -63,4 +63,9 @@ class CategorySpec extends Specification {
         InvalidCategoryException exception = thrown()
         exception.message == InvalidCategoryException.CAUSE.CATEGORY_NAME_NOT_EXISTS.message
     }
+
+    def 'Should find all categories'() {
+        expect:
+        categoryFacade.findAll() != null
+    }
 }

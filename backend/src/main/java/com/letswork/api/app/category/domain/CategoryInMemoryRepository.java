@@ -18,8 +18,7 @@ class CategoryInMemoryRepository implements CategoryRepository {
                 .stream()
                 .filter(c -> c.getName().equals(name))
                 .findFirst()
-                .orElseThrow(() ->
-                        new InvalidCategoryException(InvalidCategoryException.CAUSE.CATEGORY_NAME_NOT_EXISTS));
+                .orElseThrow(() -> new InvalidCategoryException(InvalidCategoryException.CAUSE.CATEGORY_NAME_NOT_EXISTS));
     }
 
     @Override
