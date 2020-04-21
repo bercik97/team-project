@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 
 @AllArgsConstructor
-public class CategoryService {
+class CategoryService {
 
     private final CategoryRepository repository;
     private final CategoryValidator validator;

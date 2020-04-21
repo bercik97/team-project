@@ -82,7 +82,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringAntMatchers("/j_spring_security_check", "/j_spring_security_logout", "/api/**", "/h2/**")
+                .ignoringAntMatchers("/j_spring_security_check", "/j_spring_security_logout", "/api/**")
             .and()
                 .cors()
             .and()
@@ -105,7 +105,6 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private static final String[] NOT_AUTHENTICATED_API = {
-            "/h2/**",
             "/api/users/**",
             "/api/auth/**",
             "/api/advertisements/find/**",
@@ -115,6 +114,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTHENTICATED_API = {
             "/api/advertisements/add",
             "/api/advertisements/delete/**",
+            "/api/advertisements/update/**",
             "/api/job-applications/**"
     };
 }

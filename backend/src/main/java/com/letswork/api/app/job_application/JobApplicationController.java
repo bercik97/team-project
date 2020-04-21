@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/job-applications")
 @CrossOrigin("http://localhost:3000")
 @AllArgsConstructor
-public class JobApplicationController {
+class JobApplicationController {
 
     private final JobApplicationFacade facade;
 

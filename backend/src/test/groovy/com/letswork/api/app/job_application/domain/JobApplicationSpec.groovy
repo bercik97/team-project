@@ -2,7 +2,6 @@ package com.letswork.api.app.job_application.domain
 
 import com.letswork.api.app.advertisement.domain.AdvertisementEntity
 import com.letswork.api.app.advertisement.domain.AdvertisementFacade
-import com.letswork.api.app.advertisement.domain.AdvertisementService
 import com.letswork.api.app.job_application.domain.dto.CreateJobApplicationDto
 import com.letswork.api.app.job_application.domain.exceptions.InvalidJobApplicationException
 import org.mockito.Mockito
@@ -22,10 +21,7 @@ class JobApplicationSpec extends Specification {
     private ConcurrentHashMap<Long, JobApplicationEntity> db
 
     @Shared
-    private AdvertisementFacade advertisementFacadeMock = Mock()
-
-    @Shared
-    private AdvertisementService advertisementServiceMock = Mockito.mock(AdvertisementService.class)
+    private AdvertisementFacade advertisementFacadeMock = Mockito.mock(AdvertisementFacade.class)
 
     def setupSpec() {
         db = new ConcurrentHashMap<>()
@@ -42,7 +38,7 @@ class JobApplicationSpec extends Specification {
         advertisement.setId(1L)
 
         when: 'we apply job application'
-        Mockito.when(advertisementServiceMock.findById(advertisement.getId())).thenReturn(advertisement)
+        Mockito.when(advertisementFacadeMock.findById(advertisement.getId())).thenReturn(advertisement)
         jobApplicationFacade.add(new CreateJobApplicationDto('I want this job!', advertisement.getId()), 'tom@mail.com')
 
         then: 'system has this job application'

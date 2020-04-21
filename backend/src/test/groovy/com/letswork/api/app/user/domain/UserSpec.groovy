@@ -19,14 +19,14 @@ class UserSpec extends Specification {
     private UserFacade userFacade
 
     @Shared
-    private TokenFacade tokenFacade = Mockito.mock(TokenFacade.class)
+    private TokenFacade tokenFacadeMock = Mockito.mock(TokenFacade.class)
 
     @Shared
     private ConcurrentHashMap<String, UserEntity> db
 
     def setupSpec() {
         db = new ConcurrentHashMap<>()
-        userFacade = new UserConfiguration().userFacade(db, tokenFacade)
+        userFacade = new UserConfiguration().userFacade(db, tokenFacadeMock)
     }
 
     def cleanup() {
@@ -148,7 +148,7 @@ class UserSpec extends Specification {
         user.setToken(token)
 
         when: 'we try to confirm account'
-        Mockito.when(tokenFacade.findTokenByConfirmationToken(confirmationToken)).thenReturn(token)
+        Mockito.when(tokenFacadeMock.findTokenByConfirmationToken(confirmationToken)).thenReturn(token)
         userFacade.confirmAccount(confirmationToken)
 
         then: 'user account is enabled'
