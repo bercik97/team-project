@@ -8,7 +8,6 @@ import com.letswork.api.app.category.domain.CategoryEntity
 import com.letswork.api.app.category.domain.CategoryFacade
 import com.letswork.api.app.user.domain.UserEntity
 import com.letswork.api.app.user.domain.UserFacade
-import com.letswork.api.app.user.domain.UserService
 import org.mockito.Mockito
 import spock.lang.Shared
 import spock.lang.Specification
@@ -23,13 +22,10 @@ class AdvertisementSpec extends Specification {
     private AdvertisementFacade advertisementFacade
 
     @Shared
-    private UserFacade userFacadeMock = Mock()
+    private UserFacade userFacadeMock = Mockito.mock(UserFacade.class)
 
     @Shared
-    private CategoryFacade categoryFacadeMock = Mock()
-
-    @Shared
-    private UserService userServiceMock = Mockito.mock(UserService.class)
+    private CategoryFacade categoryFacadeMock = Mockito.mock(CategoryFacade.class)
 
     @Shared
     private ConcurrentHashMap<String, AdvertisementEntity> db
@@ -49,7 +45,7 @@ class AdvertisementSpec extends Specification {
         UserEntity user = new UserEntity(email, '123456', true, null, Collections.emptyList())
 
         when: 'we add advertisement'
-        Mockito.when(userServiceMock.findByEmail(email)).thenReturn(user)
+        Mockito.when(userFacadeMock.findByEmail(email)).thenReturn(user)
         advertisementFacade.add(new CreateAdvertisementDto('title', 'some content', 'IT'), email)
 
         then: 'system has advertisement'
@@ -106,6 +102,15 @@ class AdvertisementSpec extends Specification {
         then: 'exception is thrown'
         InvalidAdvertisementException exception = thrown()
         exception.message == InvalidAdvertisementException.CAUSE.CONTENT_WRONG_LENGTH.message
+    }
+
+    private static String prepareMoreThan1000CharactersContentLength() {
+        String tooLongContent = 'thisContentIsAbsolutelyTooLongForEveryAdvertisementYouWantToAdd'
+        StringBuilder sb = new StringBuilder()
+        for (int i = 0; i < 20; i++) {
+            sb.append(tooLongContent)
+        }
+        return sb.toString()
     }
 
     def 'Should find advertisements'() {

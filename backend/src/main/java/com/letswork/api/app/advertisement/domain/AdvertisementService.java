@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class AdvertisementService {
+class AdvertisementService {
 
     private final AdvertisementRepository repository;
     private final AdvertisementFactory factory;
@@ -26,8 +26,7 @@ public class AdvertisementService {
         UserEntity user = userFacade.findByEmail(userEmail);
         CategoryEntity category = categoryFacade.findByCategoryName(dto.getCategoryName());
         validator.validate(dto.getTitle(), dto.getContent());
-        AdvertisementEntity advertisementEntity = factory.create(dto, user, category);
-        repository.save(advertisementEntity);
+        repository.save(factory.create(dto, user, category));
     }
 
     public List<AdvertisementDto> findAll() {
@@ -39,14 +38,16 @@ public class AdvertisementService {
     }
 
     public List<AdvertisementDto> findAllByCategoryName(String categoryName) {
-        return repository.findAllByCategoryName(categoryName)
+        return repository
+                .findAllByCategoryName(categoryName)
                 .stream()
                 .map(AdvertisementDto::convert)
                 .collect(Collectors.toList());
     }
 
     public AdvertisementEntity findById(Long advertisementId) {
-        return repository.findById(advertisementId)
+        return repository
+                .findById(advertisementId)
                 .orElseThrow(() -> new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS));
     }
 
@@ -60,7 +61,8 @@ public class AdvertisementService {
     }
 
     public void update(Long id, UpdateAdvertisementDto dto) {
-        AdvertisementEntity advertisement = repository.findById(id)
+        AdvertisementEntity advertisement = repository
+                .findById(id)
                 .orElseThrow(() -> new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS));
         String newTitle = dto.getNewTitle();
         String newContent = dto.getNewContent();

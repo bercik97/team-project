@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class UserService {
+class UserService {
 
     private final UserRepository repository;
     private final UserFactory factory;
@@ -38,12 +38,14 @@ public class UserService {
     }
 
     public Optional<SignInDto> findByEmailToSignIn(String email) {
-        return repository.findByEmail(email)
+        return repository
+                .findByEmail(email)
                 .map(SignInDto::convert);
     }
 
     public UserEntity findByEmail(String email) {
-        return repository.findByEmail(email)
+        return repository
+                .findByEmail(email)
                 .orElseThrow(() -> new InvalidUserException(InvalidUserException.CAUSE.EMAIL_NOT_EXISTS));
     }
 }

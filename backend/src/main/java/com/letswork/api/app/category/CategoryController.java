@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/categories")
 @CrossOrigin("http://localhost:3000")
 @AllArgsConstructor
-public class CategoryController {
+class CategoryController {
 
     private final CategoryFacade facade;
 

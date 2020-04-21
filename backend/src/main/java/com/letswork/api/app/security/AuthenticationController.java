@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/auth")
 @CrossOrigin("http://localhost:3000")
 @AllArgsConstructor
-public class AuthenticationController {
+class AuthenticationController {
 
     @GetMapping
     @ApiOperation("If user is authenticated then show info about him, otherwise return 401 HTTP code")

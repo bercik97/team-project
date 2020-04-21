@@ -3,7 +3,7 @@ package com.letswork.api.app.job_application.domain;
 import com.letswork.api.app.advertisement.domain.AdvertisementEntity;
 import com.letswork.api.app.job_application.domain.dto.CreateJobApplicationDto;
 
-public class JobApplicationFactory {
+class JobApplicationFactory {
 
     public JobApplicationEntity create(String email, CreateJobApplicationDto dto, AdvertisementEntity advertisement) {
         return JobApplicationEntity.builder()

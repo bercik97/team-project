@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.Map;
 
 @ControllerAdvice
-public class ControllerAdvisor extends ResponseEntityExceptionHandler {
+class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ParameterizedException.class)
     public ResponseEntity<Object> handleParameterizedException(RuntimeException e) {

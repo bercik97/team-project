@@ -43,8 +43,14 @@ class AdvertisementValidator {
     }
 
     public void validate(Long id) {
+        InvalidAdvertisementException.CAUSE cause = null;
+
         if (!repository.existsById(id)) {
-            throw new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_CANNOT_BE_DELETED);
+            cause = InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS;
+        }
+
+        if (cause != null) {
+            throw new InvalidAdvertisementException(cause);
         }
     }
 }

@@ -21,8 +21,8 @@ Aplikacja zostanie uruchomiona na porcie 8080
 DB: PostgreSQL <br>
 Host: localhost <br>
 Port: 5432 <br>
-Username: postgres
-Password: admin
+Username: postgres <br>
+Password: admin <br>
 Schema: lets-work
 
 ### API

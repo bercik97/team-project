@@ -2,6 +2,7 @@ package com.letswork.api.app.token.domain
 
 import com.letswork.api.app.token.domain.exception.InvalidTokenException
 import com.letswork.api.app.user.domain.UserEntity
+import org.mockito.Mockito
 import org.springframework.mail.javamail.JavaMailSender
 import spock.lang.Shared
 import spock.lang.Specification
@@ -15,14 +16,14 @@ class TokenSpec extends Specification {
     private TokenFacade tokenFacade
 
     @Shared
-    private JavaMailSender mailSender = Mock()
+    private JavaMailSender mailSenderMock = Mockito.mock(JavaMailSender.class)
 
     @Shared
     private ConcurrentHashMap<String, TokenEntity> db
 
     def setupSpec() {
         db = new ConcurrentHashMap<>()
-        tokenFacade = new TokenConfiguration().tokenFacade(db, mailSender)
+        tokenFacade = new TokenConfiguration().tokenFacade(db, mailSenderMock)
     }
 
     def cleanup() {
