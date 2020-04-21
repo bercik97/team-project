@@ -31,13 +31,16 @@ class AdvertisementController {
         facade.add(dto, authentication.getName());
     }
 
-    @GetMapping(path = {
-            "find",
-            "find/{categoryName}"
-    })
-    @ApiOperation("Find advertisements and filter them by given category name")
-    public ResponseEntity<?> findAllWithOrWithoutCategoryNameFilter(@PathVariable(required = false) String categoryName) {
-        return ResponseEntity.ok(facade.findAllWithOrWithoutCategoryNameFilter(categoryName));
+    @GetMapping("find")
+    @ApiOperation("Find advertisements")
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(facade.findAll());
+    }
+
+    @GetMapping("find/{categoryName}")
+    @ApiOperation("Find advertisements by given category name")
+    public ResponseEntity<?> findAllByCategoryName(@PathVariable String categoryName) {
+        return ResponseEntity.ok(facade.findAllByCategoryName(categoryName));
     }
 
     @PutMapping("update/{id}")

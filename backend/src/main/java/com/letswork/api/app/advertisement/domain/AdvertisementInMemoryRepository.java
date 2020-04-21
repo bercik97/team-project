@@ -38,26 +38,17 @@ class AdvertisementInMemoryRepository implements AdvertisementRepository {
                 .stream()
                 .filter(c -> c.getId().equals(advertisementId))
                 .findFirst()
-                .orElseThrow(() ->
-                        new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS)));
+                .orElseThrow(() -> new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS)));
     }
 
     @Override
     public void deleteAllByUserEmail(String userEmail) {
-        map.values()
-                .stream()
-                .filter(a -> a.getUser().getEmail().equals(userEmail))
-                .collect(Collectors.toList())
-                .clear();
+        map.values().removeIf(a -> a.getUser().getEmail().equals(userEmail));
     }
 
     @Override
     public void deleteByIdAndUserEmail(Long id, String userEmail) {
-        map.values()
-                .stream()
-                .filter(a -> a.getId().equals(id) && a.getUser().getEmail().equals(userEmail))
-                .collect(Collectors.toList())
-                .clear();
+        map.values().removeIf(a -> a.getId().equals(id) && a.getUser().getEmail().equals(userEmail));
     }
 
     @Override

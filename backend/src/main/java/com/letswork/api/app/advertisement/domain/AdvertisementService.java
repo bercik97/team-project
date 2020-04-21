@@ -11,7 +11,6 @@ import com.letswork.api.app.user.domain.UserFacade;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -31,13 +30,15 @@ public class AdvertisementService {
         repository.save(advertisementEntity);
     }
 
-    public List<AdvertisementDto> findAllWithOrWithoutCategoryNameFilter(String categoryName) {
-        if (categoryName == null) {
-            return repository.findAll()
-                    .stream()
-                    .map(AdvertisementDto::convert)
-                    .collect(Collectors.toList());
-        }
+    public List<AdvertisementDto> findAll() {
+        return repository
+                .findAll()
+                .stream()
+                .map(AdvertisementDto::convert)
+                .collect(Collectors.toList());
+    }
+
+    public List<AdvertisementDto> findAllByCategoryName(String categoryName) {
         return repository.findAllByCategoryName(categoryName)
                 .stream()
                 .map(AdvertisementDto::convert)
@@ -59,17 +60,11 @@ public class AdvertisementService {
     }
 
     public void update(Long id, UpdateAdvertisementDto dto) {
-        Optional<AdvertisementEntity> optionalAdvertisement = repository.findById(id);
-        if (optionalAdvertisement.isEmpty()) {
-            throw new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS);
-        }
+        AdvertisementEntity advertisement = repository.findById(id)
+                .orElseThrow(() -> new InvalidAdvertisementException(InvalidAdvertisementException.CAUSE.ADVERTISEMENT_NOT_EXISTS));
         String newTitle = dto.getNewTitle();
         String newContent = dto.getNewContent();
-
         validator.validate(newTitle, newContent);
-
-        AdvertisementEntity advertisement = optionalAdvertisement.get();
-
         advertisement.setTitle(newTitle);
         advertisement.setContent(newContent);
     }
