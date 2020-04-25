@@ -15,6 +15,33 @@ export default class MainPage extends React.Component {
     )
   }
 
+  offerItem(title, categoryName, date, authorEmail, content) {
+    return (
+      <li className="timeline-item bg-white rounded ml-3 p-4 shadow">
+        <div className="timeline-arrow"/>
+        <h2 className="h5 mb-0">
+          {title}
+        </h2>
+        <span className="badge badge-info">
+          {categoryName}
+        </span>
+        <span className="small text-gray">
+          <i className="fa fa-clock-o mr-1"/>
+          {date}
+        </span>
+        <p>
+          Dodano przez: <span className="badge badge-pill badge-light">{authorEmail}</span>
+        </p>
+        <p className="text-small mt-2 font-weight-light">
+          {content}
+        </p>
+        <div className="text-right mb-3">
+          <a className="btn btn-success">Aplikuj!</a>
+        </div>
+      </li>
+    )
+  }
+
   render() {
     return (
       <div className="layout">
@@ -67,19 +94,18 @@ export default class MainPage extends React.Component {
         </nav>
         <nav className="container-fluid">
           <div className="row jumbotron">
-            <div className="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
-              <p className="lead text-center">
-                W tym miejscu będą kategorie ogłoszeń
-              </p>
+            <div className="col-md-7 mx-auto">
+              <ul className="timeline">
+                {this.offerItem("Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
+                  " treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend" +
+                  "treść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontend" +
+                  "treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend")}
+                {this.offerItem("Tytył ogłoszenia nr 2", "Backend", "23.04.2020", "xd@xd.pl", "treść ogłosznia dla kategorii Backend")}
+                {this.offerItem("Tytył ogłoszenia nr 3", "Fullstack", "25.04.2020", "janusz@janusz.pl", "treść ogłosznia dla kategorii Fullstack")}
+                {this.offerItem("Tytył ogłoszenia nr 4", "HR", "26.0.2020", "grażyna@grażyna.pl", "treść ogłosznia dla kategorii HR")}
+                {this.offerItem("Tytył ogłoszenia nr 5", "Game", "28.04.2020", "joanna@joanna.pl", "treść ogłosznia dla kategorii Game")}
+              </ul>
             </div>
-            <div className="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2"/>
-            <a href="#">
-              <button
-                type="button"
-                className="btn btn-outline-secondary btn-lg align-self-center">
-                Pokaż więcej ogłoszeń
-              </button>
-            </a>
           </div>
         </nav>
         <nav className="container-fluid padding">
