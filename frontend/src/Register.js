@@ -37,7 +37,11 @@ export default class Register extends React.Component {
         alert(response.data);
       })
       .catch(error => {
-        this.setState({errorMessage: error.response.data.message});
+        if (error.response) {
+          this.setState({errorMessage: error.response.data.message});
+        } else {
+          this.setState({errorMessage: "Nie można połączyć się z serwerem"});
+        }
       });
   }
 

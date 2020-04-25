@@ -24,17 +24,15 @@ export default class Login extends React.Component {
   }
 
   handleSubmit(event) {
-    const {username, password} = this.state;
+    const {email, password} = this.state;
 
     let result = axios
       .post(
-        "http://localhost:8080/login/",
-        JSON.stringify({
-          user: {
-            username: username,
+        "http://localhost:8080/j_spring_security_check",
+        {
+            username: email,
             password: password
-          }
-        })
+        }
       );
 
     result.then(response => {
@@ -84,23 +82,27 @@ export default class Login extends React.Component {
                     <div className="form-group">
                       <label id="email"/>
                       <input
+                        value={this.state.email}
                         name="email"
                         type="email"
                         className="form-control"
                         placeholder="Twój e-mail *"
+                        onChange={this.handleChange}
                       />
                     </div>
                     <label id="password"/>
                     <input
+                      value={this.state.password}
                       name="password"
                       type="password"
                       className="form-control"
                       placeholder="Twoje hasło *"
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <button type="button" className="btnSubmit">Zaloguj się!</button>
+                      <button type="button" className="btnSubmit" onClick={this.handleSubmit}>Zaloguj się!</button>
                     </div>
                   </div>
                 </div>
@@ -117,30 +119,7 @@ export default class Login extends React.Component {
                 <p>
                   777 777 777
                 </p>
-                <p>
-                  joannnabiala@gmail.com
-                  <footer>
-                    <div className="container-fluid padding">
-                      <div className="row text-center">
-                        <div className="col-md-1">
-                          <img src={Logo} alt="logo"/>
-                          <hr className="dark"/>
-                          <p>
-                            777 777 777
-                          </p>
-                          <p>
-                            joannnabiala@gmail.com
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <div className="dark"/>
-                        <p>©lets-work-pl.pl</p>
-                      </div>
-                    </div>
-                  </footer>
-                  mail.com
-                </p>
+
               </div>
             </div>
             <div className="text-center">

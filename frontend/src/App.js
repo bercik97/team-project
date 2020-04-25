@@ -7,6 +7,7 @@ import {
 import WelcomePage from "./WelcomePage";
 import Register from "./Register";
 import Login from "./Login";
+import MainPageForLoggedIn from "./MainPageForLoggedIn";
 
 export default function App() {
   return (
@@ -21,6 +22,9 @@ export default function App() {
           </Route>
           <Route path="/login">
             <Login/>
+          </Route>
+          <Route path="/mainpageforloggedin">
+            <MainPageForLoggedIn/>
           </Route>
         </Switch>
       </div>
