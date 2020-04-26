@@ -15,7 +15,9 @@ export default class MainPage extends React.Component {
     )
   }
 
-  offerItem(title, categoryName, date, authorEmail, content) {
+  offerItem(id, title, categoryName, date, authorEmail, content) {
+    const modalId = "exampleModal" + id;
+    const dataTarget = "#" + modalId;
     return (
       <li className="timeline-item bg-white rounded ml-3 p-4 shadow">
         <div className="timeline-arrow"/>
@@ -36,7 +38,36 @@ export default class MainPage extends React.Component {
           {content}
         </p>
         <div className="text-right mb-3">
-          <a className="btn btn-success">Aplikuj!</a>
+          <a className="btn btn-success" data-toggle="modal" data-target={dataTarget} data-whatever="@mdo">Aplikuj!</a>
+        </div>
+        <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Stwórz swoje zgłoszenie </h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="recipient-name" className="col-form-label">Pracodawca:</label>
+                    <label type="text" className="form-control" id="recipient-name">{authorEmail}</label>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="message-text" className="col-form-label">Treść:</label>
+                    <textarea className="form-control" id="message-text"/>
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                <button type="button" className="btn btn-primary">Zapisz i wyślij!</button>
+              </div>
+            </div>
+          </div>
         </div>
       </li>
     )
@@ -96,14 +127,14 @@ export default class MainPage extends React.Component {
           <div className="row jumbotron">
             <div className="col-md-7 mx-auto">
               <ul className="timeline">
-                {this.offerItem("Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
+                {this.offerItem("1", "Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
                   " treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend" +
                   "treść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontend" +
                   "treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend")}
-                {this.offerItem("Tytył ogłoszenia nr 2", "Backend", "23.04.2020", "xd@xd.pl", "treść ogłosznia dla kategorii Backend")}
-                {this.offerItem("Tytył ogłoszenia nr 3", "Fullstack", "25.04.2020", "janusz@janusz.pl", "treść ogłosznia dla kategorii Fullstack")}
-                {this.offerItem("Tytył ogłoszenia nr 4", "HR", "26.0.2020", "grażyna@grażyna.pl", "treść ogłosznia dla kategorii HR")}
-                {this.offerItem("Tytył ogłoszenia nr 5", "Game", "28.04.2020", "joanna@joanna.pl", "treść ogłosznia dla kategorii Game")}
+                {this.offerItem("2", "Tytył ogłoszenia nr 2", "Backend", "23.04.2020", "xd@xd.pl", "treść ogłosznia dla kategorii Backend")}
+                {this.offerItem("3", "Tytył ogłoszenia nr 3", "Fullstack", "25.04.2020", "janusz@janusz.pl", "treść ogłosznia dla kategorii Fullstack")}
+                {this.offerItem("4", "Tytył ogłoszenia nr 4", "HR", "26.0.2020", "grażyna@grażyna.pl", "treść ogłosznia dla kategorii HR")}
+                {this.offerItem("5", "Tytył ogłoszenia nr 5", "Game", "28.04.2020", "joanna@joanna.pl", "treść ogłosznia dla kategorii Game")}
               </ul>
             </div>
           </div>
