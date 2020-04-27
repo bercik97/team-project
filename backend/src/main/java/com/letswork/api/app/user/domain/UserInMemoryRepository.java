@@ -28,4 +28,9 @@ class UserInMemoryRepository implements UserRepository {
                 .stream().filter(e -> e.getEmail().equals(email))
                 .findFirst();
     }
+
+    @Override
+    public void deleteByEmail(String email) {
+        map.values().removeIf(u -> u.getEmail().equals(email));
+    }
 }

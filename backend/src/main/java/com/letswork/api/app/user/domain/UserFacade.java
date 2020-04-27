@@ -4,6 +4,7 @@ import com.letswork.api.app.user.domain.dto.CreateUserDto;
 import com.letswork.api.app.user.domain.dto.SignInDto;
 import lombok.AllArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -11,6 +12,7 @@ public class UserFacade {
 
     private final UserService service;
 
+    @Transactional
     public void create(CreateUserDto dto) {
         service.create(dto);
     }

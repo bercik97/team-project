@@ -2,6 +2,7 @@ package com.letswork.api.app.user.domain;
 
 import com.letswork.api.app.token.domain.TokenEntity;
 import com.letswork.api.app.token.domain.TokenFacade;
+import com.letswork.api.app.token.domain.exception.InvalidTokenException;
 import com.letswork.api.app.user.domain.dto.CreateUserDto;
 import com.letswork.api.app.user.domain.dto.SignInDto;
 import com.letswork.api.app.user.domain.exception.InvalidUserException;
@@ -20,8 +21,13 @@ class UserService {
     void create(CreateUserDto dto) {
         validator.validate(dto);
         UserEntity user = factory.create(dto);
-        tokenFacade.sendRegisterConfirmationToken(user);
         repository.save(user);
+        try {
+            tokenFacade.sendRegisterConfirmationToken(user);
+        } catch (InvalidTokenException exception) {
+            repository.deleteByEmail(user.getEmail());
+            throw exception;
+        }
     }
 
     public void confirmAccount(String confirmationToken) {
