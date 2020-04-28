@@ -8,6 +8,7 @@ import WelcomePage from "./WelcomePage";
 import Register from "./Register";
 import Login from "./Login";
 import MainPageForLoggedIn from "./MainPageForLoggedIn";
+import ConfirmAccount from "./ConfirmAccount";
 
 export default function App() {
   return (
@@ -25,6 +26,9 @@ export default function App() {
           </Route>
           <Route path="/mainpageforloggedin">
             <MainPageForLoggedIn/>
+          </Route>
+          <Route path="/confirm-account">
+            <ConfirmAccount/>
           </Route>
         </Switch>
       </div>
