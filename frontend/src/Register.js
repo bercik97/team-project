@@ -34,7 +34,7 @@ export default class Register extends React.Component {
 
     axios.post('http://localhost:8080/api/users', data)
       .then(response => {
-        alert(response.data);
+        alert("Token potwierdzajacy zostal wysłany na podany adres email.");
       })
       .catch(error => {
         if (error.response) {

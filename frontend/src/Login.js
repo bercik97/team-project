@@ -3,6 +3,9 @@ import lock from "./img/lock.svg";
 import axios from "axios";
 import './style.css';
 import Logo from "./img/logo_transparent.png";
+import {Redirect} from "react-router-dom";
+const qs = require('querystring')
+
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -10,7 +13,8 @@ export default class Login extends React.Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      redirectToMainPage: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,18 +30,24 @@ export default class Login extends React.Component {
   handleSubmit(event) {
     const {email, password} = this.state;
 
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+
     let result = axios
       .post(
         "http://localhost:8080/j_spring_security_check",
-        {
+        qs.stringify({
             username: email,
             password: password
-        }
+        }),
+        config
       );
 
     result.then(response => {
-      alert(response.data);
-      this.setState({redirectToWelcome: true});
+      this.setState({redirectToMainPage: true});
     });
 
     result.catch(error => {
@@ -48,6 +58,10 @@ export default class Login extends React.Component {
   }
 
   render() {
+    if (this.state.redirectToMainPage) {
+      return (<Redirect to="/mainpageforloggedin" />);
+    }
+
     return (
       <div>
         <nav className="navbar navbar-expand-md navbar-light sticky-top">
