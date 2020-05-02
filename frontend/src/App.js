@@ -9,7 +9,10 @@ import Register from "./Register";
 import Login from "./Login";
 import MainPageForLoggedIn from "./MainPageForLoggedIn";
 import ConfirmAccount from "./ConfirmAccount";
+import UserPanel from "./UserPanel";
+import axios from 'axios';
 
+axios.defaults.withCredentials = true;
 export default function App() {
   return (
     <Router>
@@ -29,6 +32,9 @@ export default function App() {
           </Route>
           <Route path="/confirm-account">
             <ConfirmAccount/>
+          </Route>
+          <Route path="/userpanel">
+            <UserPanel/>
           </Route>
         </Switch>
       </div>
