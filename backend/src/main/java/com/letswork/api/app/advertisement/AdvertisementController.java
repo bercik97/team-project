@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/advertisements")
+@RequestMapping("api/notices")
+// changed to api/notice cause ad block do not allow api/advertisements path
 @CrossOrigin("http://localhost:3000")
 @AllArgsConstructor
 class AdvertisementController {
