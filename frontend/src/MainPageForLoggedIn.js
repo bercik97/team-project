@@ -88,7 +88,7 @@ export default class MainPage extends React.Component {
             <div className="collapse navbar-collapse" id="navbarResposive">
               <ul className="navbar-nav ml-auto">
                 <div className="btn-group">
-                  <a className="btn bg-primary" href="/myprofile">Moje konto</a>
+                  <a className="btn bg-primary" href="/userpanel">Moje konto</a>
                   <a className="btn btn-primary"
                      href="/logoutsite"
                      data-toggle="modal"
