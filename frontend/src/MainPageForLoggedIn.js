@@ -3,13 +3,90 @@ import Logo from './img/logo_transparent.png'
 import bg0 from './img/bg-6.jpg'
 import bg1 from './img/bg-4.jpg'
 import bg2 from './img/bg-5.jpg'
+import axios from "axios";
+import {Link, Redirect} from "react-router-dom";
 
 export default class MainPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      categories: [],
+      categoryName: "",
+      title: "",
+      content: "",
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleTitleChange = this.handleTitleChange.bind(this);
+      this.handleContentChange = this.handleContentChange.bind(this);
+      this.handleCategoryNameChange = this.handleCategoryNameChange.bind(this);
+  }
+
+  handleTitleChange(event) {
+    this.setState({
+      "title": event.target.value
+    });
+  }
+
+  handleContentChange(event) {
+    this.setState({
+      "content": event.target.value
+    });
+  }
+
+  handleCategoryNameChange(event) {
+    this.setState({
+      "categoryName": event.target.name
+    });
+  }
+
+  handleSubmit(event) {
+    if (!this.state.categoryName.length) {
+      alert("Ogłoszenie musi zawierac kategorie");
+      return;
+    }
+    const data = {
+      "categoryName": this.state.categoryName,
+      "title": this.state.title,
+      "content": this.state.content,
+    };
+    axios.post('http://localhost:8080/api/notices/add', data)
+      .then(response => {
+        alert("ogłoszenie zostało wysłane");
+        window.location.reload(false);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:8080/api/categories').then(response => {
+      this.setState({categories: response.data});
+    })
+  }
+
+  renderCategories() {
+    const renderedCategories = [];
+
+    for (let category of this.state.categories) {
+      renderedCategories.push(this.makeCheckbox(category.id, category.name));
+    }
+
+    return (
+      <ul>
+        {renderedCategories}
+      </ul>
+    )
+  }
+
 
   makeCheckbox(id, name) {
+    const isSelected = this.state.categoryName === name;
+
     return (
       <div className="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" className="custom-control-input" id={id}/>
+        <input type="checkbox" className="custom-control-input" checked={isSelected}
+               onChange={this.handleCategoryNameChange} id={id} name={name}/>
         <label className="custom-control-label" htmlFor={id}>{name}</label>
       </div>
     )
@@ -90,7 +167,6 @@ export default class MainPage extends React.Component {
                 <div className="btn-group">
                   <a className="btn bg-primary" href="/userpanel">Moje konto</a>
                   <a className="btn btn-primary"
-                     href="/logoutsite"
                      data-toggle="modal"
                      data-target=".bd-example-modal-lg">
                     + Dodaj ogłoszenie
@@ -190,44 +266,28 @@ export default class MainPage extends React.Component {
                     <p>Wybierz kategorię ogłoszenia:</p>
                     <container>
                       <div className="row">
-                        <ul>
-                          {this.makeCheckbox("categoryName1", "Backend")}
-                          {this.makeCheckbox("categoryName2", "Frontend")}
-                          {this.makeCheckbox("categoryName3", "Fullstack")}
-                          {this.makeCheckbox("categoryName4", "Mobile")}
-                          {this.makeCheckbox("categoryName5", "Testing")}
-                          {this.makeCheckbox("categoryName6", "Devops")}
-                          {this.makeCheckbox("categoryName7", "Embedded")}
-                          {this.makeCheckbox("categoryName8", "Security")}
-                          {this.makeCheckbox("categoryName9", "Gaming")}
-                          {this.makeCheckbox("categoryName10", "AI")}
-                          {this.makeCheckbox("categoryName11", "Big Data")}
-                          {this.makeCheckbox("categoryName12", "IT Support")}
-                          {this.makeCheckbox("categoryName13", "IT Administrator")}
-                          {this.makeCheckbox("categoryName14", "Agile")}
-                          {this.makeCheckbox("categoryName15", "Product Management")}
-                          {this.makeCheckbox("categoryName16", "Project Manager")}
-                          {this.makeCheckbox("categoryName17", "Business Intelligence")}
-                          {this.makeCheckbox("categoryName18", "Business Analysis")}
-                          {this.makeCheckbox("categoryName19", "Design")}
-                          {this.makeCheckbox("categoryName20", "HR")}
-                          {this.makeCheckbox("categoryName21", "Inne oferty")}
-                        </ul>
+                        {this.renderCategories()}
                       </div>
                     </container>
                     <div className="form-group">
                       <label htmlFor="title" className="col-form-label">Tytuł ogłoszenia:</label>
-                      <input type="text" className="form-control" id="recipient-name"/>
+                      <input type="text" className="form-control" id="recipient-name" value={this.state.title}
+                             onChange={this.handleTitleChange}/>
                     </div>
                     <div className="form-group">
                       <label htmlFor="content" className="col-form-label">Treść ogłoszenia:</label>
-                      <textarea className="form-control" id="content"/>
+                      <textarea
+                        className="form-control"
+                        id="content"
+                        value={this.state.content}
+                        onChange={this.handleContentChange}
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                  <button type="button" className="btn btn-primary">Zapisz i dodaj</button>
+                  <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Zapisz i dodaj</button>
                 </div>
               </div>
             </div>
