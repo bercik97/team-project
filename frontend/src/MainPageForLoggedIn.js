@@ -4,7 +4,8 @@ import bg0 from './img/bg-6.jpg'
 import bg1 from './img/bg-4.jpg'
 import bg2 from './img/bg-5.jpg'
 import axios from "axios";
-import {Link, Redirect} from "react-router-dom";
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 export default class MainPage extends React.Component {
   constructor(props) {
@@ -14,11 +15,12 @@ export default class MainPage extends React.Component {
       categoryName: "",
       title: "",
       content: "",
+      notices: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-      this.handleTitleChange = this.handleTitleChange.bind(this);
-      this.handleContentChange = this.handleContentChange.bind(this);
-      this.handleCategoryNameChange = this.handleCategoryNameChange.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
+    this.handleCategoryNameChange = this.handleCategoryNameChange.bind(this);
   }
 
   handleTitleChange(event) {
@@ -63,6 +65,9 @@ export default class MainPage extends React.Component {
     axios.get('http://localhost:8080/api/categories').then(response => {
       this.setState({categories: response.data});
     })
+    axios.get('http://localhost:8080/api/notices/find').then(response => {
+      this.setState({notices: response.data});
+    })
   }
 
   renderCategories() {
@@ -92,27 +97,42 @@ export default class MainPage extends React.Component {
     )
   }
 
-  offerItem(id, title, categoryName, date, authorEmail, content) {
-    const modalId = "exampleModal" + id;
+  renderAllNotices() {
+    const renderedNotices = [];
+    for (let notice of this.state.notices) {
+      renderedNotices.push(this.renderNotice(notice));
+    }
+    return (
+      <div className="row">
+        {renderedNotices}
+      </div>
+    )
+  }
+
+  renderNotice(notice) {
+    const src = "http://localhost:8080/api/notices/find" + notice.id + "/";
+    const modalId = "exampleModal" + notice.id;
     const dataTarget = "#" + modalId;
     return (
-      <li className="timeline-item bg-white rounded ml-3 p-4 shadow">
+      <li src={src} className="timeline-item bg-white rounded col-md-12 p-4 shadow">
         <div className="timeline-arrow"/>
         <h2 className="h5 mb-0">
-          {title}
+          {notice.title}
         </h2>
         <span className="badge badge-info">
-          {categoryName}
+          {notice.categoryName}
         </span>
         <span className="small text-gray">
           <i className="fa fa-clock-o mr-1"/>
-          {date}
+           <Moment format="YYYY/MM/DD">
+               {notice.date}
+            </Moment>
         </span>
         <p>
-          Dodano przez: <span className="badge badge-pill badge-light">{authorEmail}</span>
+          Dodano przez: <span className="badge badge-pill badge-light">{notice.authorEmail}</span>
         </p>
         <p className="text-small mt-2 font-weight-light">
-          {content}
+          {notice.content}
         </p>
         <div className="text-right mb-3">
           <a className="btn btn-success" data-toggle="modal" data-target={dataTarget} data-whatever="@mdo">Aplikuj!</a>
@@ -131,7 +151,7 @@ export default class MainPage extends React.Component {
                 <form>
                   <div className="form-group">
                     <label htmlFor="recipient-name" className="col-form-label">Pracodawca:</label>
-                    <label type="text" className="form-control" id="recipient-name">{authorEmail}</label>
+                    <label type="text" className="form-control" id="recipient-name">{notice.authorEmail}</label>
                   </div>
                   <div className="form-group">
                     <label htmlFor="message-text" className="col-form-label">Treść:</label>
@@ -199,18 +219,19 @@ export default class MainPage extends React.Component {
             </div>
           </div>
         </nav>
-        <nav className="container-fluid">
+        <nav className="container">
           <div className="row jumbotron">
-            <div className="col-md-7 mx-auto">
+            <div className="col-md-11 mx-auto">
               <ul className="timeline">
-                {this.offerItem("1", "Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
+                {/* {this.offerItem("1", "Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
                   " treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend" +
                   "treść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontend" +
                   "treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend")}
                 {this.offerItem("2", "Tytył ogłoszenia nr 2", "Backend", "23.04.2020", "xd@xd.pl", "treść ogłosznia dla kategorii Backend")}
                 {this.offerItem("3", "Tytył ogłoszenia nr 3", "Fullstack", "25.04.2020", "janusz@janusz.pl", "treść ogłosznia dla kategorii Fullstack")}
                 {this.offerItem("4", "Tytył ogłoszenia nr 4", "HR", "26.0.2020", "grażyna@grażyna.pl", "treść ogłosznia dla kategorii HR")}
-                {this.offerItem("5", "Tytył ogłoszenia nr 5", "Game", "28.04.2020", "joanna@joanna.pl", "treść ogłosznia dla kategorii Game")}
+                {this.offerItem("5", "Tytył ogłoszenia nr 5", "Game", "28.04.2    </ul>020", "joanna@joanna.pl", "treść ogłosznia dla kategorii Game")}*/}
+                {this.renderAllNotices()}
               </ul>
             </div>
           </div>
