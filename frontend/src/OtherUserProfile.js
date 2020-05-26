@@ -3,20 +3,19 @@ import Logo from "./img/logo_transparent.png";
 import axios from 'axios';
 
 
-
-export default class UserPanel extends React.Component {
+export default class OtherUserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    name: "",
+      name: "",
     };
-
   }
 
   componentDidMount() {
     axios.get('http://localhost:8080/api/auth').then(response => {
       console.log(response.data.name);
-      this.setState({name: response.data.name});    })
+      this.setState({name: response.data.name});
+    })
   }
 
   offerItem(id, title, categoryName, date, authorEmail, content) {
@@ -28,18 +27,6 @@ export default class UserPanel extends React.Component {
         <h2 className="h5 mb-0">
           {title}
         </h2>
-        <div className="mb-3 text-right">
-          <button className="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-            ...
-          </button>
-          <div className="dropdown-menu">
-            <p>Edytuj</p>
-            <p>Usuń</p>
-          </div>
-
-        </div>
-
         <span className="badge badge-info">
           {categoryName}
         </span>
@@ -90,69 +77,64 @@ export default class UserPanel extends React.Component {
   }
 
   render() {
-    return(
-    <div className="layout">
-      <nav className="navbar navbar-expand-md navbar-light sticky-top">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            <img alt="Let's work" src={Logo} className="img-fluid"/>
-          </a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+    return (
+      <div className="layout">
+        <nav className="navbar navbar-expand-md navbar-light sticky-top">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="#">
+              <img alt="Let's work" src={Logo} className="img-fluid"/>
+            </a>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
             <span className="navbar-toggler-icon">
             </span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarResposive">
-            <ul className="navbar-nav ml-auto">
-              <div className="btn-group">
-                <a className="btn bg-primary" href="/register">Wyloguj</a>
-              </div>
-            </ul>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarResposive">
+              <ul className="navbar-nav ml-auto">
+                <div className="btn-group">
+                  <a className="btn bg-primary" href="/register">Wyloguj</a>
+                </div>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      <div className="container">
-        <div className="row profile">
-          <div className="col-md-3">
-            <div className="profile-sidebar">
-              <div className="profile-userpic">
-                <img
-                  className="img-responsive" alt=""/>
-              </div>
-              <div className="profile-usertitle">
-                <div className="profile-usertitle-name">
-                  {this.state.name}
+        <div className="container">
+          <div className="row profile">
+            <div className="col-md-3">
+              <div className="profile-sidebar">
+                <div className="profile-userpic">
+                  <img
+                    className="img-responsive" alt=""/>
+                </div>
+                <div className="profile-usertitle">
+                  <div className="profile-usertitle-name">
+                    {this.state.name}
+                  </div>
+                </div>
+                <div className="profile-usermenu">
+                  <ul className="nav">
+                    <li className="active">
+                      <a href="#">
+                        <i className="glyphicon glyphicon-home"/>
+                        Przegląd </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
-              <div className="profile-usermenu">
-                <ul className="nav">
-                  <li className="active">
-                    <a href="#">
-                      <i className="glyphicon glyphicon-home"/>
-                      Przegląd </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="glyphicon glyphicon-user"/>
-                      Ustawienia konta </a>
-                  </li>
+            </div>
+            <div className="col-md-9">
+              <div className="profile-content">
+                <ul className="timeline">
+                  {this.offerItem("1", "Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
+                    " treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend" +
+                    "treść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontend" +
+                    "treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend")}
                 </ul>
               </div>
             </div>
           </div>
-          <div className="col-md-9">
-            <div className="profile-content">
-              <ul className="timeline">
-                {this.offerItem("1", "Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
-                  " treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend" +
-                  "treść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontend" +
-                  "treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend")}
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
     );
   }
 }
