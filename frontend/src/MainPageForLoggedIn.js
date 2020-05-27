@@ -16,6 +16,7 @@ export default class MainPage extends React.Component {
       title: "",
       content: "",
       notices: "",
+      redirectToOtherUserProfile: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -129,7 +130,10 @@ export default class MainPage extends React.Component {
             </Moment>
         </span>
         <p>
-          Dodano przez: <span className="badge badge-pill badge-light">{notice.authorEmail}</span>
+          Dodano przez:
+          <span className="badge badge-pill badge-light">
+            {notice.authorEmail}
+            </span>
         </p>
         <p className="text-small mt-2 font-weight-light">
           {notice.content}
@@ -223,14 +227,6 @@ export default class MainPage extends React.Component {
           <div className="row jumbotron">
             <div className="col-md-11 mx-auto">
               <ul className="timeline">
-                {/* {this.offerItem("1", "Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
-                  " treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend" +
-                  "treść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontend" +
-                  "treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend")}
-                {this.offerItem("2", "Tytył ogłoszenia nr 2", "Backend", "23.04.2020", "xd@xd.pl", "treść ogłosznia dla kategorii Backend")}
-                {this.offerItem("3", "Tytył ogłoszenia nr 3", "Fullstack", "25.04.2020", "janusz@janusz.pl", "treść ogłosznia dla kategorii Fullstack")}
-                {this.offerItem("4", "Tytył ogłoszenia nr 4", "HR", "26.0.2020", "grażyna@grażyna.pl", "treść ogłosznia dla kategorii HR")}
-                {this.offerItem("5", "Tytył ogłoszenia nr 5", "Game", "28.04.2    </ul>020", "joanna@joanna.pl", "treść ogłosznia dla kategorii Game")}*/}
                 {this.renderAllNotices()}
               </ul>
             </div>
