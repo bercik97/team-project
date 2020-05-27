@@ -22,6 +22,7 @@ export default class MainPage extends React.Component {
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleCategoryNameChange = this.handleCategoryNameChange.bind(this);
+    this.fetchAdvertisements = this.fetchAdvertisements.bind(this);
   }
 
   handleTitleChange(event) {
@@ -38,7 +39,7 @@ export default class MainPage extends React.Component {
 
   handleCategoryNameChange(event) {
     this.setState({
-      "categoryName": event.target.name
+      categoryName: event.target.name
     });
   }
 
@@ -66,9 +67,7 @@ export default class MainPage extends React.Component {
     axios.get('http://localhost:8080/api/categories').then(response => {
       this.setState({categories: response.data});
     })
-    axios.get('http://localhost:8080/api/notices/find').then(response => {
-      this.setState({notices: response.data});
-    })
+    this.fetchAdvertisements();
   }
 
   renderCategories() {
@@ -85,15 +84,54 @@ export default class MainPage extends React.Component {
     )
   }
 
+  renderRadioButtonCategories() {
+    const renderedCategories = [];
+
+    for (let category of this.state.categories) {
+      renderedCategories.push(this.makeRadioButton(category.id, category.name));
+    }
+
+    return (
+      <ul>
+        {renderedCategories}
+      </ul>
+    )
+  }
+
+  fetchAdvertisements() {
+    const categoryUrl = this.state.categoryName ? this.state.categoryName + "/" : "";
+
+    axios.get('http://localhost:8080/api/notices/find/' + categoryUrl).then(response => {
+      this.setState({notices: response.data});
+      console.log("this.state.categories")
+    })
+  }
 
   makeCheckbox(id, name) {
     const isSelected = this.state.categoryName === name;
 
     return (
       <div className="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" className="custom-control-input" checked={isSelected}
-               onChange={this.handleCategoryNameChange} id={id} name={name}/>
+        <input type="checkbox"
+               className="custom-control-input"
+               checked={isSelected}
+               onChange={this.handleCategoryNameChange}
+               id={id}
+               name={name}
+        />
         <label className="custom-control-label" htmlFor={id}>{name}</label>
+      </div>
+    )
+  }
+
+  makeRadioButton(id, name) {
+    const isSelected = this.state.categoryName === name;
+
+    return (
+      <div className="custom-control custom-control-inline">
+        <input type="radio" className="form-check-input" checked={isSelected}
+               onChange={this.handleCategoryNameChange} id={id} name={name}/>
+        <label className="form-check-label  " htmlFor={id}>{name}</label>
       </div>
     )
   }
@@ -225,6 +263,20 @@ export default class MainPage extends React.Component {
         </nav>
         <nav className="container">
           <div className="row jumbotron">
+            <div>
+              <h5>Wybierz kategorię ogłoszeń:</h5>
+            </div>
+
+
+            <div className="col-md-12">
+              {this.renderRadioButtonCategories()}
+              <button
+                className="btn-primary"
+                onClick={this.fetchAdvertisements}
+              >
+                szukaj
+              </button>
+            </div>
             <div className="col-md-11 mx-auto">
               <ul className="timeline">
                 {this.renderAllNotices()}
@@ -281,9 +333,12 @@ export default class MainPage extends React.Component {
                 <div className="modal-body">
                   <div className="custom-control custom-checkbox">
                     <p>Wybierz kategorię ogłoszenia:</p>
+
                     <container>
                       <div className="row">
+
                         {this.renderCategories()}
+
                       </div>
                     </container>
                     <div className="form-group">
