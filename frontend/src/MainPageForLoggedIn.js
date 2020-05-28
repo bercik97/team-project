@@ -7,7 +7,22 @@ import axios from "axios";
 import Moment from 'react-moment';
 import 'moment-timezone';
 
+const initialState = {
+  categories: [],
+  categoryName: "",
+  title: "",
+  content: "",
+  notices: "",
+  redirectToOtherUserProfile: false,
+  message: "",
+  titleError: "",
+  contentError: ""
+
+};
+
 export default class MainPage extends React.Component {
+  state = initialState;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +32,10 @@ export default class MainPage extends React.Component {
       content: "",
       notices: "",
       redirectToOtherUserProfile: false,
-      message: ""
+      message: "",
+      titleError: "",
+      contentError: ""
+
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -53,6 +71,12 @@ export default class MainPage extends React.Component {
   }
 
   handleSubmit(event) {
+    const isValid = this.validate();
+    if (isValid) {
+      console.log(this.state);
+      this.setState({initialState});
+    }
+
     if (!this.state.categoryName.length) {
       alert("Ogłoszenie musi zawierac kategorie");
       return;
@@ -70,6 +94,29 @@ export default class MainPage extends React.Component {
       .catch(error => {
         console.log(error);
       })
+
+
+  }
+
+
+  validate() {
+    let titleError = "";
+    let contentError = "";
+    if (!this.state.content) {
+      contentError = "Zawartość ogłoszenia nie może być pusta.";
+    }
+
+
+    if (!this.state.title) {
+      titleError = "Tytuł ogłoszenia nie może być pusty.";
+    }
+
+    if (titleError || contentError) {
+      this.setState({titleError, contentError});
+      return false;
+    }
+    return true;
+
   }
 
   componentDidMount() {
@@ -241,6 +288,7 @@ export default class MainPage extends React.Component {
     })
   }
 
+
   render() {
     return (
       <div className="layout">
@@ -372,8 +420,17 @@ export default class MainPage extends React.Component {
                     </container>
                     <div className="form-group">
                       <label htmlFor="title" className="col-form-label">Tytuł ogłoszenia:</label>
-                      <input type="text" className="form-control" id="recipient-name" value={this.state.title}
-                             onChange={this.handleTitleChange}/>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="recipient-name"
+                        value={this.state.title}
+                        onChange={this.handleTitleChange}
+                      />
+
+                      <div style={{color: 'red'}}>
+                        {this.state.titleError}
+                      </div>
                     </div>
                     <div className="form-group">
                       <label htmlFor="content" className="col-form-label">Treść ogłoszenia:</label>
@@ -383,6 +440,9 @@ export default class MainPage extends React.Component {
                         value={this.state.content}
                         onChange={this.handleContentChange}
                       />
+                      <div style={{color: 'red'}}>
+                        {this.state.contentError}
+                      </div>
                     </div>
                   </div>
                 </div>
