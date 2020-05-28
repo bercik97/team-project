@@ -17,12 +17,21 @@ export default class MainPage extends React.Component {
       content: "",
       notices: "",
       redirectToOtherUserProfile: false,
+      message: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleCategoryNameChange = this.handleCategoryNameChange.bind(this);
     this.fetchAdvertisements = this.fetchAdvertisements.bind(this);
+    this.handlePostJobApplication = this.handlePostJobApplication.bind(this);
+    this.handleJobApplicationChange = this.handleJobApplicationChange.bind(this);
+  }
+
+  handleJobApplicationChange(event) {
+    this.setState({
+      message: event.target.value
+    });
   }
 
   handleTitleChange(event) {
@@ -189,6 +198,7 @@ export default class MainPage extends React.Component {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+              {/*aplikowanie o pracę panel modal*/}
               <div className="modal-body">
                 <form>
                   <div className="form-group">
@@ -197,19 +207,38 @@ export default class MainPage extends React.Component {
                   </div>
                   <div className="form-group">
                     <label htmlFor="message-text" className="col-form-label">Treść:</label>
-                    <textarea className="form-control" id="message-text"/>
+                    <textarea className="form-control" id="message-text" value={this.state.message}
+                              onChange={this.handleJobApplicationChange}/>
                   </div>
                 </form>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                <button type="button" className="btn btn-primary">Zapisz i wyślij!</button>
+                <button type="button" className="btn btn-primary"
+                        onClick={() => this.handlePostJobApplication(notice)}>Zapisz i wyślij!
+                </button>
               </div>
             </div>
           </div>
         </div>
       </li>
     )
+  }
+
+  handlePostJobApplication(notice) {
+    const data = {
+      "message": this.state.message,
+      "advertisementId": notice.id,
+    };
+    let result = axios.post("http://localhost:8080/api/job-applications", data)
+    result.then(response => {
+      console.log(response)
+      alert("Twoja aplikacja została wysłana!");
+      window.location.reload(false);
+    })
+    result.catch(error => {
+      console.log(error);
+    })
   }
 
   render() {
