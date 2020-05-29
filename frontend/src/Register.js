@@ -13,7 +13,8 @@ export default class Register extends React.Component {
       password: "",
       confirmedPassword: "",
       items: [],
-      errorMessage: ''
+      errorMessage: "",
+      emailError: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -99,7 +100,7 @@ export default class Register extends React.Component {
                           className="form-control"
                           placeholder="Potwierdzenie hasła *"
                         />
-                        {this.getErrorMessage()}
+
                       </div>
                     </div>
                   </div>
@@ -116,6 +117,12 @@ export default class Register extends React.Component {
                     <div className="form-group">
                       <button type="button" className="btnSubmit" onClick={this.handleSubmit}>Zarejestruj</button>
                     </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group mx-auto">
+                      {this.getErrorMessage()}
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -149,8 +156,10 @@ export default class Register extends React.Component {
   getErrorMessage() {
     if (this.state.errorMessage) {
       return (
-        <div className="alert alert-danger badge" role="alert">
-          {this.state.errorMessage}
+        <div className="row">
+          <div className="alert alert-danger" role="alert">
+            {this.state.errorMessage}
+          </div>
         </div>
       )
     }
