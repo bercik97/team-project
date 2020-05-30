@@ -40,8 +40,9 @@ export default class MainPage extends React.Component {
       redirectToOtherUserProfile: false,
       message: "",
       titleError: "",
-      contentError: ""
-
+      contentError: "",
+      newTitleError: "",
+      newContentError: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -135,6 +136,24 @@ export default class MainPage extends React.Component {
 
     if (titleError || contentError) {
       this.setState({titleError, contentError});
+      return false;
+    }
+    return true;
+  }
+
+  updateNoticeValidate() {
+    let newTitleError = "";
+    let newContentError = "";
+    if (!this.state.newContent) {
+      newContentError = "Zawartość ogłoszenia nie może być pusta.";
+    }
+
+    if (!this.state.newTitle) {
+      newTitleError = "Tytuł ogłoszenia nie może być pusty.";
+    }
+
+    if (newTitleError || newContentError) {
+      this.setState({newTitleError, newContentError});
       return false;
     }
     return true;
@@ -238,6 +257,11 @@ export default class MainPage extends React.Component {
   }
 
   updateAdvertisement(notice) {
+    const isValid = this.updateNoticeValidate();
+    if (isValid) {
+      console.log(this.state);
+      this.setState({initialState});
+    }
     const data = {
       "newContent": this.state.newContent,
       "newTitle": this.state.newTitle
@@ -250,8 +274,10 @@ export default class MainPage extends React.Component {
   }
 
   renderNotice(notice) {
-    const modalId = "exampleModal" + notice.id;
-    const dataTarget = "#" + modalId;
+    const editModalId = "edit" + notice.id;
+    const editDataTarget = "#" + editModalId;
+    const applyModalId = "apply" + notice.id;
+    const applyDataTarget = "#" + applyModalId;
     return (
       <li className="timeline-item bg-white rounded col-md-12 p-4 shadow">
         <div className="timeline-arrow"/>
@@ -274,7 +300,7 @@ export default class MainPage extends React.Component {
                   onClick={() => {
                     this.setState({newTitle: notice.title, newContent: notice.content})
                   }}
-                  data-target={dataTarget}>Edytuj
+                  data-target={editDataTarget}>Edytuj
                 </button>
                 <button className="dropdown-item" type="button" onClick={() => this.deleteAdvertisement(notice)}>Usuń
                 </button>
@@ -301,11 +327,11 @@ export default class MainPage extends React.Component {
           {notice.content}
         </p>
         <div className="text-right mb-3">
-          <a className="btn btn-success" data-toggle="modal" data-target={dataTarget} data-whatever="@mdo">Aplikuj!</a>
+          <a className="btn btn-success" data-toggle="modal" data-target={applyDataTarget} data-whatever="@mdo">Aplikuj!</a>
         </div>
 
 
-        <div className="modal fade bd-example-modal-lg" id={modalId} tabIndex="-1" role="dialog"
+        <div className="modal fade bd-example-modal-lg" id={editModalId} tabIndex="-1" role="dialog"
              aria-labelledby="exampleModalLabel"
              aria-hidden="true">
           <div className="modal-dialog modal-lg" role="document">
@@ -329,7 +355,7 @@ export default class MainPage extends React.Component {
                     />
 
                     <div style={{color: 'red'}}>
-                      {this.state.titleError}
+                      {this.state.newTitleError}
                     </div>
                   </div>
                   <div className="form-group">
@@ -341,7 +367,7 @@ export default class MainPage extends React.Component {
                       onChange={this.handleNewContentChange}
                     />
                     <div style={{color: 'red'}}>
-                      {this.state.contentError}
+                      {this.state.newContentError}
                     </div>
                   </div>
                 </div>
@@ -357,7 +383,7 @@ export default class MainPage extends React.Component {
         </div>
 
 
-        <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div className="modal fade" id={applyModalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
