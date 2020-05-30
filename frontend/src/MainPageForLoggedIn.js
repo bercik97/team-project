@@ -267,7 +267,14 @@ export default class MainPage extends React.Component {
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               </button>
               <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button className="dropdown-item" type="button" data-toggle="modal" data-target={dataTarget}>Edytuj
+                <button
+                  className="dropdown-item"
+                  type="button"
+                  data-toggle="modal"
+                  onClick={() => {
+                    this.setState({newTitle: notice.title, newContent: notice.content})
+                  }}
+                  data-target={dataTarget}>Edytuj
                 </button>
                 <button className="dropdown-item" type="button" onClick={() => this.deleteAdvertisement(notice)}>Usuń
                 </button>
