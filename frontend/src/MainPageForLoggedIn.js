@@ -21,7 +21,8 @@ const initialState = {
   message: "",
   titleError: "",
   contentError: "",
-  name: ""
+  name: "",
+
 };
 
 export default class MainPage extends React.Component {
@@ -49,7 +50,23 @@ export default class MainPage extends React.Component {
     this.fetchAdvertisements = this.fetchAdvertisements.bind(this);
     this.handlePostJobApplication = this.handlePostJobApplication.bind(this);
     this.handleJobApplicationChange = this.handleJobApplicationChange.bind(this);
+    this.handleNewTitleChange = this.handleNewTitleChange.bind(this);
+    this.handleNewContentChange = this.handleNewContentChange.bind(this);
+
   }
+
+  handleNewTitleChange(event) {
+    this.setState({
+      "newTitle": event.target.value
+    });
+  }
+
+  handleNewContentChange(event) {
+    this.setState({
+      "newContent": event.target.value
+    });
+  }
+
 
   handleJobApplicationChange(event) {
     this.setState({
@@ -220,12 +237,23 @@ export default class MainPage extends React.Component {
     })
   }
 
+  updateAdvertisement(notice) {
+    const data = {
+      "newContent": this.state.newContent,
+      "newTitle": this.state.newTitle
+    }
+    axios.put("http://localhost:8080/api/notices/update/" + notice.id, data)
+      .then(response => {
+        window.location.reload(false);
+      })
+
+  }
+
   renderNotice(notice) {
-    const src = "http://localhost:8080/api/notices/find" + notice.id + "/";
     const modalId = "exampleModal" + notice.id;
     const dataTarget = "#" + modalId;
     return (
-      <li src={src} className="timeline-item bg-white rounded col-md-12 p-4 shadow">
+      <li className="timeline-item bg-white rounded col-md-12 p-4 shadow">
         <div className="timeline-arrow"/>
         <div className="row">
           <div className=" col-md-11">
@@ -239,7 +267,8 @@ export default class MainPage extends React.Component {
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               </button>
               <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button className="dropdown-item" type="button">Edytuj</button>
+                <button className="dropdown-item" type="button" data-toggle="modal" data-target={dataTarget}>Edytuj
+                </button>
                 <button className="dropdown-item" type="button" onClick={() => this.deleteAdvertisement(notice)}>Usuń
                 </button>
               </div>
@@ -269,6 +298,58 @@ export default class MainPage extends React.Component {
         </div>
 
 
+        <div className="modal fade bd-example-modal-lg" id={modalId} tabIndex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Edytuj swoje ogłoszenie</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="custom-control custom-checkbox">
+                  <div className="form-group">
+                    <label htmlFor="title" className="col-form-label">Tytuł ogłoszenia:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="recipient-name"
+                      value={this.state.newTitle}
+                      onChange={this.handleNewTitleChange}
+                    />
+
+                    <div style={{color: 'red'}}>
+                      {this.state.titleError}
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="content" className="col-form-label">Treść ogłoszenia:</label>
+                    <textarea
+                      className="form-control"
+                      id="content"
+                      value={this.state.newContent}
+                      onChange={this.handleNewContentChange}
+                    />
+                    <div style={{color: 'red'}}>
+                      {this.state.contentError}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                <button type="button" className="btn btn-primary"
+                        onClick={() => this.updateAdvertisement(notice)}>Zapisz i dodaj
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
           <div className="modal-dialog" role="document">
@@ -279,7 +360,6 @@ export default class MainPage extends React.Component {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              {/*aplikowanie o pracę panel modal*/}
               <div className="modal-body">
                 <form>
                   <div className="form-group">
@@ -341,7 +421,7 @@ export default class MainPage extends React.Component {
                   <a className="btn bg-primary" href="/userpanel">Moje konto</a>
                   <a className="btn btn-primary"
                      data-toggle="modal"
-                     data-target=".bd-example-modal-lg">
+                     data-target="#addNoticeId">
                     + Dodaj ogłoszenie
                   </a>
                   <a className="btn btn-primary" href="/logoutsite">Wyloguj</a>
@@ -430,7 +510,7 @@ export default class MainPage extends React.Component {
           <hr className="my-4">
           </hr>
           {/*dodawanie ogłoszeń panel modal*/}
-          <div className="modal fade bd-example-modal-lg" id="exampleModal" tabIndex="-1" role="dialog"
+          <div className="modal fade bd-example-modal-lg" id="addNoticeId" tabIndex="-1" role="dialog"
                aria-labelledby="exampleModalLabel"
                aria-hidden="true">
             <div className="modal-dialog modal-lg" role="document">
