@@ -22,6 +22,8 @@ const initialState = {
   titleError: "",
   contentError: "",
   name: "",
+  newTitleError: "",
+  newContentError:""
 
 };
 
@@ -124,19 +126,36 @@ export default class MainPage extends React.Component {
   validate() {
     let titleError = "";
     let contentError = "";
+    let newContentError = "";
+    let newTitleError = "";
     if (!this.state.content) {
       contentError = "Zawartość ogłoszenia nie może być pusta.";
     }
-
 
     if (!this.state.title) {
       titleError = "Tytuł ogłoszenia nie może być pusty.";
     }
 
-    if (titleError || contentError) {
-      this.setState({titleError, contentError});
+    if (!this.state.newTitle) {
+      newTitleError = "Tytuł ogłoszenia nie może być pusty";
+    }
+
+    if (!this.state.newContent) {
+      newContentError = "Zawartość ogłoszenia nie może być pusta";
+    }
+
+    if (titleError || contentError || newContentError || newTitleError) {
+      this.setState({titleError, contentError, newContentError, newTitleError});
       return false;
     }
+
+    if (newContentError || newTitleError) {
+      this.setState({newContentError, newTitleError});
+      return false;
+    }
+
+
+
     return true;
   }
 
@@ -245,13 +264,16 @@ export default class MainPage extends React.Component {
     axios.put("http://localhost:8080/api/notices/update/" + notice.id, data)
       .then(response => {
         window.location.reload(false);
+        console.log(response)
       })
 
   }
 
   renderNotice(notice) {
     const modalId = "exampleModal" + notice.id;
+    const modalId1 = "exampleModal1" + notice.id;
     const dataTarget = "#" + modalId;
+
     return (
       <li className="timeline-item bg-white rounded col-md-12 p-4 shadow">
         <div className="timeline-arrow"/>
@@ -305,7 +327,7 @@ export default class MainPage extends React.Component {
         </div>
 
 
-        <div className="modal fade bd-example-modal-lg" id={modalId} tabIndex="-1" role="dialog"
+        <div className="modal fade bd-example-modal-lg" id={modalId1} tabIndex="-1" role="dialog"
              aria-labelledby="exampleModalLabel"
              aria-hidden="true">
           <div className="modal-dialog modal-lg" role="document">
@@ -329,7 +351,7 @@ export default class MainPage extends React.Component {
                     />
 
                     <div style={{color: 'red'}}>
-                      {this.state.titleError}
+                      {this.state.newTitleError}
                     </div>
                   </div>
                   <div className="form-group">
@@ -341,7 +363,7 @@ export default class MainPage extends React.Component {
                       onChange={this.handleNewContentChange}
                     />
                     <div style={{color: 'red'}}>
-                      {this.state.contentError}
+                      {this.state.newContentError}
                     </div>
                   </div>
                 </div>
@@ -357,12 +379,12 @@ export default class MainPage extends React.Component {
         </div>
 
 
-        <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModal1Label"
              aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Stwórz swoje zgłoszenie </h5>
+                <h5 className="modal-title" id="exampleModal1Label">Stwórz swoje zgłoszenie </h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
