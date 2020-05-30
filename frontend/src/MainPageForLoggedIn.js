@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Link,
+  Redirect,
+} from "react-router-dom";
 import Logo from './img/logo_transparent.png'
 import bg0 from './img/bg-6.jpg'
 import bg1 from './img/bg-4.jpg'
@@ -16,8 +20,8 @@ const initialState = {
   redirectToOtherUserProfile: false,
   message: "",
   titleError: "",
-  contentError: ""
-
+  contentError: "",
+  name: ""
 };
 
 export default class MainPage extends React.Component {
@@ -31,6 +35,7 @@ export default class MainPage extends React.Component {
       title: "",
       content: "",
       notices: "",
+      authorEmail: "",
       redirectToOtherUserProfile: false,
       message: "",
       titleError: "",
@@ -116,7 +121,6 @@ export default class MainPage extends React.Component {
       return false;
     }
     return true;
-
   }
 
   componentDidMount() {
@@ -124,6 +128,11 @@ export default class MainPage extends React.Component {
       this.setState({categories: response.data});
     })
     this.fetchAdvertisements();
+
+    axios.get('http://localhost:8080/api/auth').then(response => {
+      console.log(response.data.name);
+      this.setState({name: response.data.name});
+    })
   }
 
   renderCategories() {
@@ -204,6 +213,13 @@ export default class MainPage extends React.Component {
     )
   }
 
+
+  deleteAdvertisement(notice) {
+    axios.delete("http://localhost:8080/api/notices/delete/" + notice.id).then(response => {
+      this.fetchAdvertisements()
+    })
+  }
+
   renderNotice(notice) {
     const src = "http://localhost:8080/api/notices/find" + notice.id + "/";
     const modalId = "exampleModal" + notice.id;
@@ -211,9 +227,25 @@ export default class MainPage extends React.Component {
     return (
       <li src={src} className="timeline-item bg-white rounded col-md-12 p-4 shadow">
         <div className="timeline-arrow"/>
-        <h2 className="h5 mb-0">
-          {notice.title}
-        </h2>
+        <div className="row">
+          <div className=" col-md-11">
+            <h2 className="h5 mb-0">
+              {notice.title}
+            </h2>
+          </div>
+          {notice.authorEmail === this.state.name ?
+            <div className="dropleft text-right pull-right">
+              <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              </button>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button className="dropdown-item" type="button">Edytuj</button>
+                <button className="dropdown-item" type="button" onClick={() => this.deleteAdvertisement(notice)}>Usuń
+                </button>
+              </div>
+            </div> : null}
+        </div>
+
         <span className="badge badge-info">
           {notice.categoryName}
         </span>
@@ -235,6 +267,8 @@ export default class MainPage extends React.Component {
         <div className="text-right mb-3">
           <a className="btn btn-success" data-toggle="modal" data-target={dataTarget} data-whatever="@mdo">Aplikuj!</a>
         </div>
+
+
         <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
           <div className="modal-dialog" role="document">
