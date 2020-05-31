@@ -3,6 +3,7 @@ package com.letswork.api.app.job_application.domain
 import com.letswork.api.app.advertisement.domain.AdvertisementEntity
 import com.letswork.api.app.advertisement.domain.AdvertisementFacade
 import com.letswork.api.app.job_application.domain.dto.CreateJobApplicationDto
+import com.letswork.api.app.job_application.domain.dto.JobApplicationDto
 import com.letswork.api.app.job_application.domain.exceptions.InvalidJobApplicationException
 import org.mockito.Mockito
 import spock.lang.Shared
@@ -78,5 +79,31 @@ class JobApplicationSpec extends Specification {
             sb.append(tooLongMessage)
         }
         return sb.toString()
+    }
+
+    def 'Should find all job applications by advertisement id'() {
+        given: 'advertisement with job applications'
+        Long advertisementId = 1L
+        db.putAll(createAdvertisementWithJobApplications(advertisementId, 3))
+        int dbSize = db.size()
+
+        when: 'we try to find job applications by advertisement id'
+        List<JobApplicationDto> advertisementJobApplications = jobApplicationFacade.findAllByAdvertisementId(advertisementId)
+
+        then: 'system has them'
+        advertisementJobApplications != null && advertisementJobApplications.size() == dbSize
+    }
+
+    private static Map<Long, JobApplicationEntity> createAdvertisementWithJobApplications(Long advertisementId, int quantity) {
+        AdvertisementEntity advertisement = new AdvertisementEntity()
+        advertisement.id = advertisementId
+        JobApplicationEntity jobApplication = new JobApplicationEntity()
+        Map<Long, JobApplicationEntity> jobApplications = new HashMap<>()
+        for (int i = 0; i < quantity; i++) {
+            jobApplication.id = i + 1
+            jobApplication.advertisement = advertisement
+            jobApplications.put(jobApplication.id, jobApplication)
+        }
+        return jobApplications
     }
 }
