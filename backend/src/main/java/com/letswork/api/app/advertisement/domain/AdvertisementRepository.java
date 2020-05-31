@@ -13,6 +13,8 @@ interface AdvertisementRepository extends Repository<AdvertisementEntity, Long> 
 
     List<AdvertisementEntity> findAllByCategoryName(String categoryName);
 
+    List<AdvertisementEntity> findAllByUserId(Long id);
+
     Optional<AdvertisementEntity> findById(Long advertisementId);
 
     void deleteAllByUserEmail(String userEmail);

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 class AdvertisementInMemoryRepository implements AdvertisementRepository {
 
-    private ConcurrentHashMap<String, AdvertisementEntity> map;
+    private final ConcurrentHashMap<String, AdvertisementEntity> map;
 
     @Override
     public void save(AdvertisementEntity advertisement) {
@@ -29,6 +29,14 @@ class AdvertisementInMemoryRepository implements AdvertisementRepository {
         return map.values()
                 .stream()
                 .filter(a -> categoryName.equals(a.getCategory().getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AdvertisementEntity> findAllByUserId(Long id) {
+        return map.values()
+                .stream()
+                .filter(a -> id.equals(a.getUser().getId()))
                 .collect(Collectors.toList());
     }
 

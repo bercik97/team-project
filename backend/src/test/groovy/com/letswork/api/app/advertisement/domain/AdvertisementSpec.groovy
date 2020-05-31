@@ -2,6 +2,7 @@ package com.letswork.api.app.advertisement.domain
 
 import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto
+import com.letswork.api.app.advertisement.domain.dto.OwnAdvertisementDto
 import com.letswork.api.app.advertisement.domain.dto.UpdateAdvertisementDto
 import com.letswork.api.app.advertisement.domain.exception.InvalidAdvertisementException
 import com.letswork.api.app.category.domain.CategoryEntity
@@ -115,7 +116,7 @@ class AdvertisementSpec extends Specification {
 
     def 'Should find advertisements'() {
         given: '3 advertisements'
-        addAdvertisements(3, 'mail@com')
+        addAdvertisements(3, 'mail@com', 1L)
 
         expect:
         advertisementFacade.findAll() != null
@@ -123,7 +124,7 @@ class AdvertisementSpec extends Specification {
 
     def 'Should find advertisements by given category name'() {
         given: '3 advertisements'
-        addAdvertisements(3, 'mail@com')
+        addAdvertisements(3, 'mail@com', 1L)
         int totalDbSize = db.size()
 
         when: 'we set category to #Marketing#'
@@ -137,13 +138,26 @@ class AdvertisementSpec extends Specification {
         and: 'we find advertisements by category name which we already set'
         List<AdvertisementDto> advertisements = advertisementFacade.findAllByCategoryName(categoryName)
 
-        then: 'advertisements count are equal not equal to total db size'
+        then: 'advertisements count are not equal to total db size'
         advertisements.size() != totalDbSize
+    }
+
+    def 'Should find advertisements by given user id'() {
+        given: '3 advertisements'
+        Long userId = 1L
+        addAdvertisements(3, 'mail@com', userId)
+        int totalDbSize = db.size()
+
+        when: 'we try to find advertisements by given user id'
+        List<OwnAdvertisementDto> userAdvertisements = advertisementFacade.findAllByUserId(userId)
+
+        then: 'system found them'
+        userAdvertisements != null && userAdvertisements.size() == totalDbSize
     }
 
     def 'Should find advertisement by id'() {
         given: '1 advertisements'
-        addAdvertisements(1, 'mail@com')
+        addAdvertisements(1, 'mail@com', 1L)
 
         when: 'we try to find advertisement by id'
         AdvertisementEntity advertisement = advertisementFacade.findById(1L)
@@ -155,7 +169,7 @@ class AdvertisementSpec extends Specification {
     def 'Should delete all advertisements'() {
         given: '3 advertisements with email'
         String userEmail = 'mail@com'
-        addAdvertisements(3, userEmail)
+        addAdvertisements(3, userEmail, 1L)
 
         when: 'we delete all advertisements of given email'
         advertisementFacade.deleteAll(userEmail)
@@ -167,7 +181,7 @@ class AdvertisementSpec extends Specification {
     def 'Should delete advertisements by id'() {
         given: '1 advertisements with email'
         String userEmail = 'mail@com'
-        addAdvertisements(1, userEmail)
+        addAdvertisements(1, userEmail, 1L)
 
         when: 'we delete advertisements by id of given email'
         advertisementFacade.deleteById(1L, userEmail)
@@ -179,7 +193,7 @@ class AdvertisementSpec extends Specification {
     def 'Should update title and content'() {
         given: '1 advertisements with email'
         String userEmail = 'mail@com'
-        addAdvertisements(1, userEmail)
+        addAdvertisements(1, userEmail, 1L)
         AdvertisementEntity oldAdvertisement = db.values()
                 .stream()
                 .findAny()
@@ -196,11 +210,12 @@ class AdvertisementSpec extends Specification {
         advertisement.content != oldContent
     }
 
-    private addAdvertisements(int quantity, String userEmail) {
+    private addAdvertisements(int quantity, String userEmail, Long userId) {
         for (int i = 1; i < quantity + 1; i++) {
             String value = String.valueOf(i)
             UserEntity user = new UserEntity()
             user.email = userEmail
+            user.id = userId
             AdvertisementEntity advertisement =
                     new AdvertisementEntity(value, value, LocalDateTime.now(), user, new CategoryEntity(), Collections.emptyList())
             advertisement.setId(i)
