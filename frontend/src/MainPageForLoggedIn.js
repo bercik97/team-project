@@ -67,7 +67,7 @@ export default class MainPage extends React.Component {
 
   handleJobApplicationChange(event) {
     this.setState({
-      message: event.target.value
+      "message": event.target.value
     });
   }
 
@@ -443,6 +443,7 @@ export default class MainPage extends React.Component {
                 <form>
                   <div className="form-group">
                     <label htmlFor="recipient-name" className="col-form-label">Pracodawca:</label>
+
                     <label type="text" className="form-control" id="recipient-name">{notice.authorEmail}</label>
                   </div>
                   <div className="form-group">
