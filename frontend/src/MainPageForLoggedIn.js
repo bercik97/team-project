@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  Link,
-  Redirect,
-} from "react-router-dom";
 import Logo from './img/logo_transparent.png'
 import bg0 from './img/bg-6.jpg'
 import bg1 from './img/bg-4.jpg'
@@ -22,7 +18,6 @@ const initialState = {
   titleError: "",
   contentError: "",
   name: "",
-
 };
 
 export default class MainPage extends React.Component {
@@ -42,8 +37,10 @@ export default class MainPage extends React.Component {
       titleError: "",
       contentError: "",
       newTitleError: "",
-      newContentError: ""
+      newContentError: "",
+      messageError: "",
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
@@ -53,7 +50,6 @@ export default class MainPage extends React.Component {
     this.handleJobApplicationChange = this.handleJobApplicationChange.bind(this);
     this.handleNewTitleChange = this.handleNewTitleChange.bind(this);
     this.handleNewContentChange = this.handleNewContentChange.bind(this);
-
   }
 
   handleNewTitleChange(event) {
@@ -67,7 +63,6 @@ export default class MainPage extends React.Component {
       "newContent": event.target.value
     });
   }
-
 
   handleJobApplicationChange(event) {
     this.setState({
@@ -104,11 +99,13 @@ export default class MainPage extends React.Component {
       alert("Ogłoszenie musi zawierac kategorie");
       return;
     }
+
     const data = {
       "categoryName": this.state.categoryName,
       "title": this.state.title,
       "content": this.state.content,
     };
+
     axios.post('http://localhost:8080/api/notices/add', data)
       .then(response => {
         alert("ogłoszenie zostało wysłane");
@@ -117,8 +114,6 @@ export default class MainPage extends React.Component {
       .catch(error => {
         console.log(error);
       })
-
-
   }
 
 
@@ -128,7 +123,6 @@ export default class MainPage extends React.Component {
     if (!this.state.content) {
       contentError = "Zawartość ogłoszenia nie może być pusta.";
     }
-
 
     if (!this.state.title) {
       titleError = "Tytuł ogłoszenia nie może być pusty.";
@@ -154,6 +148,18 @@ export default class MainPage extends React.Component {
 
     if (newTitleError || newContentError) {
       this.setState({newTitleError, newContentError});
+      return false;
+    }
+    return true;
+  }
+
+  messageValidate() {
+    let messageError = "";
+    if (!this.state.message) {
+      messageError = "Zawartość zgłoszenia nie może być pusta.";
+    }
+    if (messageError) {
+      this.setState({messageError});
       return false;
     }
     return true;
@@ -213,12 +219,13 @@ export default class MainPage extends React.Component {
 
     return (
       <div className="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox"
-               className="custom-control-input"
-               checked={isSelected}
-               onChange={this.handleCategoryNameChange}
-               id={id}
-               name={name}
+        <input
+          type="checkbox"
+          className="custom-control-input"
+          checked={isSelected}
+          onChange={this.handleCategoryNameChange}
+          id={id}
+          name={name}
         />
         <label className="custom-control-label" htmlFor={id}>{name}</label>
       </div>
@@ -230,8 +237,14 @@ export default class MainPage extends React.Component {
 
     return (
       <div className="custom-control custom-control-inline">
-        <input type="radio" className="form-check-input" checked={isSelected}
-               onChange={this.handleCategoryNameChange} id={id} name={name}/>
+        <input
+          type="radio"
+          className="form-check-input"
+          checked={isSelected}
+          onChange={this.handleCategoryNameChange}
+          id={id}
+          name={name}
+        />
         <label className="form-check-label  " htmlFor={id}>{name}</label>
       </div>
     )
@@ -249,11 +262,11 @@ export default class MainPage extends React.Component {
     )
   }
 
-
   deleteAdvertisement(notice) {
-    axios.delete("http://localhost:8080/api/notices/delete/" + notice.id).then(response => {
-      this.fetchAdvertisements()
-    })
+    axios.delete("http://localhost:8080/api/notices/delete/" + notice.id)
+      .then(response => {
+        this.fetchAdvertisements()
+      })
   }
 
   updateAdvertisement(notice) {
@@ -289,8 +302,13 @@ export default class MainPage extends React.Component {
           </div>
           {notice.authorEmail === this.state.name ?
             <div className="dropleft text-right pull-right">
-              <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
               </button>
               <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <button
@@ -302,7 +320,11 @@ export default class MainPage extends React.Component {
                   }}
                   data-target={editDataTarget}>Edytuj
                 </button>
-                <button className="dropdown-item" type="button" onClick={() => this.deleteAdvertisement(notice)}>Usuń
+                <button
+                  className="dropdown-item"
+                  type="button"
+                  onClick={() => this.deleteAdvertisement(notice)}>
+                  Usuń
                 </button>
               </div>
             </div> : null}
@@ -311,27 +333,37 @@ export default class MainPage extends React.Component {
         <span className="badge badge-info">
           {notice.categoryName}
         </span>
+
         <span className="small text-gray">
           <i className="fa fa-clock-o mr-1"/>
            <Moment format="YYYY/MM/DD">
                {notice.date}
             </Moment>
         </span>
+
         <p>
           Dodano przez:
           <span className="badge badge-pill badge-light">
             {notice.authorEmail}
-            </span>
+          </span>
         </p>
+
         <p className="text-small mt-2 font-weight-light">
           {notice.content}
         </p>
+
         <div className="text-right mb-3">
-          <a className="btn btn-success" data-toggle="modal" data-target={applyDataTarget} data-whatever="@mdo">Aplikuj!</a>
+          <a className="btn btn-success"
+             data-toggle="modal"
+             data-target={applyDataTarget}
+             data-whatever="@mdo">Aplikuj!
+          </a>
         </div>
 
-
-        <div className="modal fade bd-example-modal-lg" id={editModalId} tabIndex="-1" role="dialog"
+        <div className="modal fade bd-example-modal-lg"
+             id={editModalId}
+             tabIndex="-1"
+             role="dialog"
              aria-labelledby="exampleModalLabel"
              aria-hidden="true">
           <div className="modal-dialog modal-lg" role="document">
@@ -373,18 +405,31 @@ export default class MainPage extends React.Component {
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                <button type="button" className="btn btn-primary"
-                        onClick={() => this.updateAdvertisement(notice)}>Zapisz i dodaj
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal">
+                  Zamknij
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => this.updateAdvertisement(notice)}>
+                  Zapisz i dodaj
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-
-        <div className="modal fade" id={applyModalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+        <div
+          className="modal fade"
+          id={applyModalId}
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
@@ -401,15 +446,24 @@ export default class MainPage extends React.Component {
                   </div>
                   <div className="form-group">
                     <label htmlFor="message-text" className="col-form-label">Treść:</label>
-                    <textarea className="form-control" id="message-text" value={this.state.message}
-                              onChange={this.handleJobApplicationChange}/>
+                    <textarea
+                      className="form-control"
+                      id="message-text"
+                      value={this.state.message}
+                      onChange={this.handleJobApplicationChange}
+                    />
+                    <div style={{color: 'red'}}>
+                      {this.state.messageError}
+                    </div>
                   </div>
                 </form>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                <button type="button" className="btn btn-primary"
-                        onClick={() => this.handlePostJobApplication(notice)}>Zapisz i wyślij!
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => this.handlePostJobApplication(notice)}>Zapisz i wyślij!
                 </button>
               </div>
             </div>
@@ -420,6 +474,11 @@ export default class MainPage extends React.Component {
   }
 
   handlePostJobApplication(notice) {
+    const isValid = this.messageValidate();
+    if (isValid) {
+      console.log(this.state);
+      this.setState({initialState});
+    }
     const data = {
       "message": this.state.message,
       "advertisementId": notice.id,
@@ -434,7 +493,6 @@ export default class MainPage extends React.Component {
       console.log(error);
     })
   }
-
 
   render() {
     return (
@@ -542,10 +600,15 @@ export default class MainPage extends React.Component {
           </div>
           <hr className="my-4">
           </hr>
-          {/*dodawanie ogłoszeń panel modal*/}
-          <div className="modal fade bd-example-modal-lg" id="addNoticeId" tabIndex="-1" role="dialog"
-               aria-labelledby="exampleModalLabel"
-               aria-hidden="true">
+
+          <div
+            className="modal fade bd-example-modal-lg"
+            id="addNoticeId"
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">
                 <div className="modal-header">
@@ -560,9 +623,7 @@ export default class MainPage extends React.Component {
 
                     <container>
                       <div className="row">
-
                         {this.renderCategories()}
-
                       </div>
                     </container>
                     <div className="form-group">
