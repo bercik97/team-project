@@ -6,6 +6,7 @@ import bg2 from './img/bg-5.jpg'
 import axios from "axios";
 import Moment from 'react-moment';
 import 'moment-timezone';
+import {Link} from "react-router-dom";
 
 const initialState = {
   categories: [],
@@ -515,7 +516,7 @@ export default class MainPage extends React.Component {
                      data-target="#addNoticeId">
                     + Dodaj ogłoszenie
                   </a>
-                  <a className="btn btn-primary" href="/logoutsite">Wyloguj</a>
+                  <Link to="/logout" className="btn bg-primary">Wyloguj się</Link>
                 </div>
               </ul>
             </div>
