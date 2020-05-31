@@ -1,6 +1,7 @@
 import React from 'react';
 import Logo from "./img/logo_transparent.png";
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 
 
@@ -104,7 +105,7 @@ export default class UserPanel extends React.Component {
           <div className="collapse navbar-collapse" id="navbarResposive">
             <ul className="navbar-nav ml-auto">
               <div className="btn-group">
-                <a className="btn bg-primary" href="/register">Wyloguj</a>
+                <Link to="/logout" className="btn bg-primary">Wyloguj się</Link>
               </div>
             </ul>
           </div>
