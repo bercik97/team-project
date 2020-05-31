@@ -4,8 +4,11 @@ import com.letswork.api.app.job_application.domain.JobApplicationFacade;
 import com.letswork.api.app.job_application.domain.dto.CreateJobApplicationDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +26,11 @@ class JobApplicationController {
     @ApiOperation("Add new job application")
     public void add(@RequestBody CreateJobApplicationDto dto, Authentication authentication) {
         facade.add(dto, authentication.getName());
+    }
+
+    @GetMapping("{advertisementId}")
+    @ApiOperation("Find all job applications by advertisement id")
+    public ResponseEntity<?> findAllByAdvertisementId(@PathVariable Long advertisementId) {
+        return ResponseEntity.ok(facade.findAllByAdvertisementId(advertisementId));
     }
 }
