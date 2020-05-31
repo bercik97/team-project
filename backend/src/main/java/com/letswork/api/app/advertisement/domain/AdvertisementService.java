@@ -2,6 +2,7 @@ package com.letswork.api.app.advertisement.domain;
 
 import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
+import com.letswork.api.app.advertisement.domain.dto.OwnAdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.UpdateAdvertisementDto;
 import com.letswork.api.app.advertisement.domain.exception.InvalidAdvertisementException;
 import com.letswork.api.app.category.domain.CategoryEntity;
@@ -42,6 +43,15 @@ class AdvertisementService {
                 .findAllByCategoryName(categoryName)
                 .stream()
                 .map(AdvertisementDto::convert)
+                .collect(Collectors.toList());
+    }
+
+    public List<OwnAdvertisementDto> findAllByUserId(Long userId) {
+
+        return repository
+                .findAllByUserId(userId)
+                .stream()
+                .map(OwnAdvertisementDto::convert)
                 .collect(Collectors.toList());
     }
 

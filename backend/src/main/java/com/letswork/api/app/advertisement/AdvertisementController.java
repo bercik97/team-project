@@ -44,6 +44,12 @@ class AdvertisementController {
         return ResponseEntity.ok(facade.findAllByCategoryName(categoryName));
     }
 
+    @GetMapping("find/own/{userId}")
+    @ApiOperation("Find advertisements by given user id")
+    public ResponseEntity<?> findAllByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(facade.findAllByUserId(userId));
+    }
+
     @PutMapping("update/{id}")
     @ApiOperation("Update title and content of advertisement")
     public void update(@PathVariable Long id, @RequestBody UpdateAdvertisementDto dto) {

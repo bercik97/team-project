@@ -2,6 +2,7 @@ package com.letswork.api.app.advertisement.domain;
 
 import com.letswork.api.app.advertisement.domain.dto.AdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.CreateAdvertisementDto;
+import com.letswork.api.app.advertisement.domain.dto.OwnAdvertisementDto;
 import com.letswork.api.app.advertisement.domain.dto.UpdateAdvertisementDto;
 import lombok.AllArgsConstructor;
 
@@ -23,6 +24,10 @@ public class AdvertisementFacade {
 
     public List<AdvertisementDto> findAllByCategoryName(String categoryName) {
         return service.findAllByCategoryName(categoryName);
+    }
+
+    public List<OwnAdvertisementDto> findAllByUserId(Long userId) {
+        return service.findAllByUserId(userId);
     }
 
     public AdvertisementEntity findById(Long advertisementId) {
