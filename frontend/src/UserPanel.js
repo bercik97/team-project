@@ -2,158 +2,220 @@ import React from 'react';
 import Logo from "./img/logo_transparent.png";
 import axios from 'axios';
 import {Link} from "react-router-dom";
-
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 
 export default class UserPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    name: "",
+      advertisementId: "",
+      categories: [],
+      categoryName: "",
+      title: "",
+      content: "",
+      notices: "",
+      redirectToOtherUserProfile: false,
+      message: "",
+      titleError: "",
+      contentError: "",
+      name: "",
     };
-
+    this.fetchAdvertisements = this.fetchAdvertisements.bind(this);
   }
 
   componentDidMount() {
     axios.get('http://localhost:8080/api/auth').then(response => {
       console.log(response.data.name);
-      this.setState({name: response.data.name});    })
+      this.setState({name: response.data.name});
+    })
+
+    axios.get('http://localhost:8080/api/job-applications/' + this.state.advertisementId).then(response => {
+      console.log(this.state.response)
+    })
+    axios.get('http://localhost:8080/api/categories').then(response => {
+
+      this.setState({categories: response.data});
+    })
+    this.fetchAdvertisements();
   }
 
-  offerItem(id, title, categoryName, date, authorEmail, content) {
-    const modalId = "exampleModal" + id;
-    const dataTarget = "#" + modalId;
+  fetchAdvertisements() {
+    const categoryUrl = this.state.categoryName ? this.state.categoryName + "/" : "";
+
+    axios.get('http://localhost:8080/api/notices/find/' + categoryUrl).then(response => {
+      this.setState({notices: response.data});
+      console.log("this.state.categories")
+    })
+  }
+
+  renderAllNotices() {
+    const renderedNotices = [];
+    for (let notice of this.state.notices) {
+      if (notice.authorEmail === this.state.name) {
+        renderedNotices.push(this.offerItem(notice));
+      }
+    }
     return (
-      <li className="timeline-item bg-white rounded ml-3 p-4 shadow">
-        <div className="timeline-arrow"/>
-        <h2 className="h5 mb-0">
-          {title}
-        </h2>
-        <div className="mb-3 text-right">
-          <button className="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-            ...
-          </button>
-          <div className="dropdown-menu">
-            <p>Edytuj</p>
-            <p>Usuń</p>
-          </div>
+      <div>
+        {renderedNotices}
+      </div>
+    )
+  }
 
-        </div>
-
-        <span className="badge badge-info">
-          {categoryName}
-        </span>
-        <span className="small text-gray">
-          <i className="fa fa-clock-o mr-1"/>
-          {date}
-        </span>
-        <p>
-          Dodano przez: <span className="badge badge-pill badge-light">{authorEmail}</span>
-        </p>
-        <p className="text-small mt-2 font-weight-light">
-          {content}
-        </p>
-        <div className="text-right mb-3">
-          <a className="btn btn-success" data-toggle="modal" data-target={dataTarget} data-whatever="@mdo">Aplikuj!</a>
-        </div>
-        <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Stwórz swoje zgłoszenie </h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+  offerItem(notice) {
+    const modalId = "exampleModal" + notice.id;
+    const editModalId = "edit" + notice.id;
+    const editDataTarget = "#" + editModalId;
+    return (
+      <div>
+        <li className="timeline-item bg-white rounded col-md-12 p-4 shadow">
+          <div className="timeline-arrow"/>
+          <div className="row">
+            <div className="col-md-11">
+              <h2 className="h5 mb-0">
+                {notice.title}
+              </h2>
+            </div>
+            <div className="dropleft text-right pull-right">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+              </button>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button
+                  className="dropdown-item"
+                  type="button"
+                  data-toggle="modal"
+                  onClick={() => {
+                    this.setState({newTitle: notice.title, newContent: notice.content})
+                  }}
+                  data-target={editDataTarget}>Edytuj
                 </button>
-              </div>
-              <div className="modal-body">
-                <form>
-                  <div className="form-group">
-                    <label htmlFor="recipient-name" className="col-form-label">Pracodawca:</label>
-                    <label type="text" className="form-control" id="recipient-name">{authorEmail}</label>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="message-text" className="col-form-label">Treść:</label>
-                    <textarea className="form-control" id="message-text"/>
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                <button type="button" className="btn btn-primary">Zapisz i wyślij!</button>
+                <button
+                  className="dropdown-item"
+                  type="button"
+                  onClick={() => this.deleteAdvertisement(notice)}>
+                  Usuń
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </li>
+          <span className="badge badge-info">
+          {notice.categoryName}
+        </span>
+          <span className="small text-gray">
+          <i className="fa fa-clock-o mr-1"/>
+          <Moment format="YYYY/MM/DD">
+            {notice.date}
+          </Moment>
+        </span>
+          <p>
+            Dodano przez: <span className="badge badge-pill badge-light">{notice.authorEmail}</span>
+          </p>
+          <p className="text-small mt-2 font-weight-light">
+            {notice.content}
+          </p>
+          <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">Stwórz swoje zgłoszenie </h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <form>
+                    <div className="form-group">
+                      <label htmlFor="recipient-name" className="col-form-label">Pracodawca:</label>
+                      <label type="text" className="form-control" id="recipient-name">{notice.authorEmail}</label>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="message-text" className="col-form-label">Treść:</label>
+                      <textarea className="form-control" id="message-text"/>
+                    </div>
+                  </form>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                  <button type="button" className="btn btn-primary">Zapisz i wyślij!</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </div>
     )
   }
 
   render() {
-    return(
-    <div className="layout">
-      <nav className="navbar navbar-expand-md navbar-light sticky-top">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            <img alt="Let's work" src={Logo} className="img-fluid"/>
-          </a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+    return (
+      <div className="layout">
+        <nav className="navbar navbar-expand-md navbar-light sticky-top">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="#">
+              <img alt="Let's work" src={Logo} className="img-fluid"/>
+            </a>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
             <span className="navbar-toggler-icon">
             </span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarResposive">
-            <ul className="navbar-nav ml-auto">
-              <div className="btn-group">
-                <Link to="/logout" className="btn bg-primary">Wyloguj się</Link>
-              </div>
-            </ul>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarResposive">
+              <ul className="navbar-nav ml-auto">
+                <div className="btn-group">
+                  <Link to="/logout" className="btn bg-primary">Wyloguj się</Link>
+                </div>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      <div className="container">
-        <div className="row profile">
-          <div className="col-md-3">
-            <div className="profile-sidebar">
-              <div className="profile-userpic">
-                <img
-                  className="img-responsive" alt=""/>
-              </div>
-              <div className="profile-usertitle">
-                <div className="profile-usertitle-name">
-                  {this.state.name}
+        <div className="container">
+          <div className="row profile">
+            <div className="col-md-3">
+              <div className="profile-sidebar">
+                <div className="profile-userpic">
+                  <img
+                    className="img-responsive" alt=""/>
+                </div>
+                <div className="profile-usertitle">
+                  <div className="profile-usertitle-name">
+                    {this.state.name}
+                  </div>
+                </div>
+                <div className="profile-usermenu">
+                  <ul className="nav">
+                    <li className="active">
+                      <a href="#">
+                        <i className="glyphicon glyphicon-home"/>
+                        Przegląd </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i className="glyphicon glyphicon-user"/>
+                        Ustawienia konta </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
-              <div className="profile-usermenu">
-                <ul className="nav">
-                  <li className="active">
-                    <a href="#">
-                      <i className="glyphicon glyphicon-home"/>
-                      Przegląd </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="glyphicon glyphicon-user"/>
-                      Ustawienia konta </a>
-                  </li>
+            </div>
+            <div className="col-md-9">
+              <div className="profile-content">
+                <ul className="timeline">
+                  {this.renderAllNotices()}
                 </ul>
               </div>
             </div>
           </div>
-          <div className="col-md-9">
-            <div className="profile-content">
-              <ul className="timeline">
-                {this.offerItem("1", "Tytył ogłoszenia nr 1", "Frontend", "14.04.2020", "marian@marian.pl", "treść ogłosznia dla kategorii Frontend" +
-                  " treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend" +
-                  "treść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontendtreść ogłosznia dla kategorii Frontend" +
-                  "treść ogłosznia dla kategorii Frontend treść ogłosznia dla kategorii Frontend")}
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
     );
   }
 }
