@@ -16,25 +16,14 @@ const initialState = {
   titleError: "",
   contentError: "",
   name: "",
+  jobApplicationsMap: {},
 };
 
 
 export default class UserPanel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      advertisementId: "",
-      categories: [],
-      categoryName: "",
-      title: "",
-      content: "",
-      notices: "",
-      redirectToOtherUserProfile: false,
-      message: "",
-      titleError: "",
-      contentError: "",
-      name: "",
-    };
+    this.state = initialState;
     this.fetchAdvertisements = this.fetchAdvertisements.bind(this);
     this.handleNewTitleChange = this.handleNewTitleChange.bind(this);
     this.handleNewContentChange = this.handleNewContentChange.bind(this);
@@ -59,15 +48,20 @@ export default class UserPanel extends React.Component {
       })
   }
 
+  getJobApplications(notice){
+    axios.get('http://localhost:8080/api/job-applications/' + notice.id).then(response => {
+      const jobApplications = this.state.jobApplicationsMap;
+      jobApplications[notice.id] = response.data;
+      this.setState({jobApplicationsMap: jobApplications})
+    })
+  }
+
   componentDidMount() {
     axios.get('http://localhost:8080/api/auth').then(response => {
       console.log(response.data.name);
       this.setState({name: response.data.name});
     })
 
-    axios.get('http://localhost:8080/api/job-applications/' + this.state.advertisementId).then(response => {
-      console.log(this.state.response)
-    })
     axios.get('http://localhost:8080/api/categories').then(response => {
 
       this.setState({categories: response.data});
@@ -137,7 +131,16 @@ export default class UserPanel extends React.Component {
     const modalId = "exampleModal" + notice.id;
     const editModalId = "edit" + notice.id;
     const editDataTarget = "#" + editModalId;
-    const applyModalId = "apply" + notice.id;
+    const noticeId = "noticeId" + notice.id;
+
+    const noticeJobApplications = this.state.jobApplicationsMap[notice.id];
+    const parsedJobApplications = [];
+    if (noticeJobApplications) {
+      for (let jobApplication of noticeJobApplications) {
+        parsedJobApplications.push(this.renderJobApplication(jobApplication))
+      }
+    }
+
     return (
       <div>
         <li className="timeline-item bg-white rounded col-md-12 p-4 shadow">
@@ -191,6 +194,28 @@ export default class UserPanel extends React.Component {
           <p className="text-small mt-2 font-weight-light">
             {notice.content}
           </p>
+          <p>
+            <button
+              className="btn btn-primary"
+              data-toggle="collapse"
+              href={"#" + noticeId}
+              role="button"
+              aria-expanded="false"
+              onClick={() => {
+                this.getJobApplications(notice)
+              }}
+              >
+              Nadesłane zgłoszenia
+            </button>
+          </p>
+          <div className="row">
+            <div className="col">
+              <div className="collapse multi-collapse" id={noticeId}>
+                {parsedJobApplications.length !== 0 ? parsedJobApplications : <p>Brak nadesłanych ogłoszeń</p>}
+              </div>
+            </div>
+          </div>
+
           <div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -286,6 +311,15 @@ export default class UserPanel extends React.Component {
 
       </div>
     )
+  }
+
+  renderJobApplication(jobApplication) {
+    return (
+      <div className="card card-body">
+        <p>{jobApplication.email}</p>
+        <p>{jobApplication.message}</p>
+      </div>
+    );
   }
 
   render() {
