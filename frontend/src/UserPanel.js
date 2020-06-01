@@ -5,6 +5,19 @@ import {Link} from "react-router-dom";
 import Moment from 'react-moment';
 import 'moment-timezone';
 
+const initialState = {
+  categories: [],
+  categoryName: "",
+  title: "",
+  content: "",
+  notices: "",
+  redirectToOtherUserProfile: false,
+  message: "",
+  titleError: "",
+  contentError: "",
+  name: "",
+};
+
 
 export default class UserPanel extends React.Component {
   constructor(props) {
@@ -23,6 +36,27 @@ export default class UserPanel extends React.Component {
       name: "",
     };
     this.fetchAdvertisements = this.fetchAdvertisements.bind(this);
+    this.handleNewTitleChange = this.handleNewTitleChange.bind(this);
+    this.handleNewContentChange = this.handleNewContentChange.bind(this);
+  }
+
+  handleNewTitleChange(event) {
+    this.setState({
+      "newTitle": event.target.value
+    });
+  }
+
+  handleNewContentChange(event) {
+    this.setState({
+      "newContent": event.target.value
+    });
+  }
+
+  deleteAdvertisement(notice) {
+    axios.delete("http://localhost:8080/api/notices/delete/" + notice.id)
+      .then(response => {
+        this.fetchAdvertisements()
+      })
   }
 
   componentDidMount() {
@@ -39,6 +73,41 @@ export default class UserPanel extends React.Component {
       this.setState({categories: response.data});
     })
     this.fetchAdvertisements();
+  }
+
+  updateNoticeValidate() {
+    let newTitleError = "";
+    let newContentError = "";
+    if (!this.state.newContent) {
+      newContentError = "Zawartość ogłoszenia nie może być pusta.";
+    }
+
+    if (!this.state.newTitle) {
+      newTitleError = "Tytuł ogłoszenia nie może być pusty.";
+    }
+
+    if (newTitleError || newContentError) {
+      this.setState({newTitleError, newContentError});
+      return false;
+    }
+    return true;
+  }
+
+  updateAdvertisement(notice) {
+    const isValid = this.updateNoticeValidate();
+    if (isValid) {
+      console.log(this.state);
+      this.setState({initialState});
+    }
+    const data = {
+      "newContent": this.state.newContent,
+      "newTitle": this.state.newTitle
+    }
+    axios.put("http://localhost:8080/api/notices/update/" + notice.id, data)
+      .then(response => {
+        window.location.reload(false);
+      })
+
   }
 
   fetchAdvertisements() {
@@ -68,6 +137,7 @@ export default class UserPanel extends React.Component {
     const modalId = "exampleModal" + notice.id;
     const editModalId = "edit" + notice.id;
     const editDataTarget = "#" + editModalId;
+    const applyModalId = "apply" + notice.id;
     return (
       <div>
         <li className="timeline-item bg-white rounded col-md-12 p-4 shadow">
@@ -151,6 +221,69 @@ export default class UserPanel extends React.Component {
             </div>
           </div>
         </li>
+
+        <div className="modal fade bd-example-modal-lg"
+             id={editModalId}
+             tabIndex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Edytuj swoje ogłoszenie</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="custom-control custom-checkbox">
+                  <div className="form-group">
+                    <label htmlFor="title" className="col-form-label">Tytuł ogłoszenia:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="recipient-name"
+                      value={this.state.newTitle}
+                      onChange={this.handleNewTitleChange}
+                    />
+
+                    <div style={{color: 'red'}}>
+                      {this.state.newTitleError}
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="content" className="col-form-label">Treść ogłoszenia:</label>
+                    <textarea
+                      className="form-control"
+                      id="content"
+                      value={this.state.newContent}
+                      onChange={this.handleNewContentChange}
+                    />
+                    <div style={{color: 'red'}}>
+                      {this.state.newContentError}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal">
+                  Zamknij
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => this.updateAdvertisement(notice)}>
+                  Zapisz i dodaj
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     )
   }
