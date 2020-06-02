@@ -48,7 +48,7 @@ export default class UserPanel extends React.Component {
       })
   }
 
-  getJobApplications(notice){
+  getJobApplications(notice) {
     axios.get('http://localhost:8080/api/job-applications/' + notice.id).then(response => {
       const jobApplications = this.state.jobApplicationsMap;
       jobApplications[notice.id] = response.data;
@@ -204,7 +204,7 @@ export default class UserPanel extends React.Component {
               onClick={() => {
                 this.getJobApplications(notice)
               }}
-              >
+            >
               Nadesłane zgłoszenia
             </button>
           </p>
@@ -327,7 +327,7 @@ export default class UserPanel extends React.Component {
       <div className="layout">
         <nav className="navbar navbar-expand-md navbar-light sticky-top">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
+            <a className="navbar-brand" href="/dashboard">
               <img alt="Let's work" src={Logo} className="img-fluid"/>
             </a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">

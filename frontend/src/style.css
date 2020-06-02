@@ -169,6 +169,10 @@ body {
     min-height: 460px;
 }
 
-.container-fluid{
+.container-fluid {
     background-color: white;
+}
+
+.flex-item {
+    padding: 15px;
 }

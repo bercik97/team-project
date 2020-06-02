@@ -10,7 +10,7 @@ export default class MainPage extends React.Component {
       <div className="layout">
         <nav className="navbar navbar-expand-md navbar-light sticky-top">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
+            <a className="navbar-brand" href="/">
               <img alt="Let's work" src={Logo} className="img-fluid"/>
             </a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
