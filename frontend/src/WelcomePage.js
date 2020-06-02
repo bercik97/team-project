@@ -52,18 +52,14 @@ export default class MainPage extends React.Component {
         <nav className="container-fluid">
           <div className="row jumbotron">
             <div className="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
-              <p className="lead text-center">
-                W tym miejscu będą kategorie ogłoszeń
+              <p className="lead">
+                Zarejestruj się lub zaloguj aby uzyskać dostęp do darmowych ogłoszeń.
+              </p>
+              <p>
+                <h5>Dodawaj ogłoszenia lub odpowiedz na jedną z wielu dostępnych ofert!</h5>
               </p>
             </div>
             <div className="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2"/>
-            <a href="#">
-              <button
-                type="button"
-                className="btn btn-outline-secondary btn-lg align-self-center">
-                Pokaż więcej ogłoszeń
-              </button>
-            </a>
           </div>
         </nav>
         <nav className="container-fluid padding">
@@ -111,7 +107,7 @@ export default class MainPage extends React.Component {
                   777 777 777
                 </p>
                 <p>
-                  joannnabiala@gmail.com
+                  letswork@gmail.com
                 </p>
               </div>
             </div>

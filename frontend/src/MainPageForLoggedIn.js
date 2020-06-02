@@ -14,7 +14,6 @@ const initialState = {
   title: "",
   content: "",
   notices: "",
-  redirectToOtherUserProfile: false,
   message: "",
   titleError: "",
   contentError: "",
@@ -33,7 +32,6 @@ export default class MainPage extends React.Component {
       content: "",
       notices: "",
       authorEmail: "",
-      redirectToOtherUserProfile: false,
       message: "",
       titleError: "",
       contentError: "",
@@ -61,12 +59,10 @@ export default class MainPage extends React.Component {
         </Link>
       )
     }
-
-    const to = "/otheruserprofile/" + notice.authorEmail;
     return (
-      <Link to={to}>
+      <div>
         {notice.authorEmail}
-      </Link>
+      </div>
     )
   }
 
@@ -691,7 +687,7 @@ export default class MainPage extends React.Component {
                   777 777 777
                 </p>
                 <p>
-                  joannnabiala@gmail.com
+                  letswork@gmail.com
                 </p>
               </div>
             </div>

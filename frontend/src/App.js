@@ -11,7 +11,6 @@ import MainPageForLoggedIn from "./MainPageForLoggedIn";
 import ConfirmAccount from "./ConfirmAccount";
 import UserPanel from "./UserPanel";
 import axios from 'axios';
-import OtherUserProfile from "./OtherUserProfile";
 import Logout from "./Logout";
 
 axios.defaults.withCredentials = true;
@@ -37,9 +36,6 @@ export default function App() {
           </Route>
           <Route path="/userpanel">
             <UserPanel/>
-          </Route>
-          <Route path="/otheruserprofile">
-            <OtherUserProfile/>
           </Route>
           <Route path="/logout">
             <Logout/>

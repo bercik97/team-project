@@ -91,28 +91,27 @@ export default class Register extends React.Component {
                     </div>
                     <div className="form-group">
                       <div className="form-group">
-                        <label id="confirmedPassword"/>
+                        <label id="password"/>
                         <input
-                          value={this.state.confirmedPassword}
-                          name="confirmedPassword"
+                          value={this.state.password}
+                          name="password"
                           onChange={this.handleChange}
                           type="password"
                           className="form-control"
-                          placeholder="Potwierdzenie hasła *"
+                          placeholder="Twoje hasło *"
                         />
-
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
-                    <label id="password"/>
+                    <label id="confirmedpassword"/>
                     <input
-                      value={this.state.password}
-                      name="password"
+                      value={this.state.confirmedPassword}
+                      name="confirmedPassword"
                       onChange={this.handleChange}
                       type="password"
                       className="form-control"
-                      placeholder="Twoje hasło *"
+                      placeholder="Potwierdzenie hasła *"
                     />
                     <div className="form-group">
                       <button type="button" className="btnSubmit" onClick={this.handleSubmit}>Zarejestruj</button>
@@ -122,7 +121,6 @@ export default class Register extends React.Component {
                     <div className="form-group mx-auto">
                       {this.getErrorMessage()}
                     </div>
-
                   </div>
                 </div>
               </div>
