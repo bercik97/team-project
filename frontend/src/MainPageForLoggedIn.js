@@ -53,6 +53,23 @@ export default class MainPage extends React.Component {
     this.handleNewContentChange = this.handleNewContentChange.bind(this);
   }
 
+  renderAdvertisementAuthorLinkTo(notice) {
+    if (notice.authorEmail === this.state.name) {
+      return (
+        <Link to="/userpanel">
+          {this.state.name}
+        </Link>
+      )
+    }
+
+    const to = "/otheruserprofile/" + notice.authorEmail;
+    return (
+      <Link to={to}>
+        {notice.authorEmail}
+      </Link>
+    )
+  }
+
   handleNewTitleChange(event) {
     this.setState({
       "newTitle": event.target.value
@@ -293,7 +310,7 @@ export default class MainPage extends React.Component {
     const applyModalId = "apply" + notice.id;
     const applyDataTarget = "#" + applyModalId;
     return (
-      <li className="timeline-item bg-white rounded col-md-12 p-4 shadow">
+      <li className="timeline-item bg-white rounded col-md-12 p-4  shadow">
         <div className="timeline-arrow"/>
         <div className="row">
           <div className=" col-md-11">
@@ -345,7 +362,7 @@ export default class MainPage extends React.Component {
         <p>
           Dodano przez:
           <span className="badge badge-pill badge-light">
-            {notice.authorEmail}
+            {this.renderAdvertisementAuthorLinkTo(notice)}
           </span>
         </p>
 
@@ -501,7 +518,7 @@ export default class MainPage extends React.Component {
       <div className="layout">
         <nav className="navbar navbar-expand-md navbar-light sticky-top">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
+            <a className="navbar-brand" href="/dashboard">
               <img alt="Let's work" src={Logo} className="img-fluid"/>
             </a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
@@ -552,10 +569,10 @@ export default class MainPage extends React.Component {
             </div>
 
 
-            <div className="col-md-12">
+            <div className="flex-item row col-md-12">
               {this.renderRadioButtonCategories()}
               <button
-                className="btn-primary"
+                className="btn btn-primary text-center"
                 onClick={this.fetchAdvertisements}
               >
                 szukaj

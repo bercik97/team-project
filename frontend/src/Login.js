@@ -4,6 +4,7 @@ import axios from "axios";
 import './style.css';
 import Logo from "./img/logo_transparent.png";
 import {Redirect} from "react-router-dom";
+
 const qs = require('querystring')
 
 
@@ -40,8 +41,8 @@ export default class Login extends React.Component {
       .post(
         "http://localhost:8080/j_spring_security_check",
         qs.stringify({
-            username: email,
-            password: password
+          username: email,
+          password: password
         }),
         config
       );
@@ -59,7 +60,7 @@ export default class Login extends React.Component {
 
   render() {
     if (this.state.redirectToMainPage) {
-      return (<Redirect to="/mainpageforloggedin" />);
+      return (<Redirect to="/dashboard"/>);
     }
 
     return (
