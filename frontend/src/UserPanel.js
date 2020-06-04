@@ -364,11 +364,6 @@ export default class UserPanel extends React.Component {
                         <i className="glyphicon glyphicon-home"/>
                         Przegląd </a>
                     </li>
-                    <li>
-                      <a href="#">
-                        <i className="glyphicon glyphicon-user"/>
-                        Ustawienia konta </a>
-                    </li>
                   </ul>
                 </div>
               </div>
@@ -382,6 +377,28 @@ export default class UserPanel extends React.Component {
             </div>
           </div>
         </div>
+        <footer>
+          <div className="container-fluid padding">
+            <div className="row text-center">
+              <div className="col-md-1">
+                <img src={Logo} alt="logo"/>
+                <hr className="dark"/>
+                <p>
+                  777 777 777
+                </p>
+                <p>
+                  letswork@gmail.com
+                </p>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="dark"/>
+              <p>
+                ©lets-work-pl.pl
+              </p>
+            </div>
+          </div>
+        </footer>
       </div>
     );
   }
